@@ -240,6 +240,9 @@ DECLARE
   v_unit_price NUMERIC;
   v_line_total NUMERIC;
   v_settings site_settings%ROWTYPE;
+  v_phone TEXT;
+  v_digits TEXT;
+  v_national TEXT;
 BEGIN
   IF p_items IS NULL OR jsonb_array_length(p_items) = 0 THEN
     RAISE EXCEPTION 'عربة التسوق فارغة.';
@@ -249,11 +252,25 @@ BEGIN
     RAISE EXCEPTION 'رقم الجوال مطلوب.';
   END IF;
 
-  IF NOT (
-    regexp_replace(trim(p_customer_phone), '\D', '', 'g') ~ '^(00968[79][0-9]{7}|968[79][0-9]{7}|[79][0-9]{7})$'
-  ) THEN
-    RAISE EXCEPTION 'رقم الجوال يجب أن يكون عُمانياً (8 أرقام تبدأ بـ 7 أو 9).';
+  -- UAE mobile only: +971 + 9 digits starting with 5
+  v_digits := regexp_replace(trim(p_customer_phone), '\D', '', 'g');
+  IF v_digits LIKE '00971%' AND length(v_digits) >= 14 THEN
+    v_national := substring(v_digits from 6 for 9);
+  ELSIF v_digits LIKE '971%' AND length(v_digits) >= 12 THEN
+    v_national := substring(v_digits from 4 for 9);
+  ELSIF v_digits LIKE '05%' AND length(v_digits) = 10 THEN
+    v_national := substring(v_digits from 2 for 9);
+  ELSIF length(v_digits) = 9 THEN
+    v_national := v_digits;
+  ELSE
+    v_national := NULL;
   END IF;
+
+  IF v_national IS NULL OR v_national !~ '^5[0-9]{8}$' THEN
+    RAISE EXCEPTION 'رقم الجوال يجب أن يكون إماراتياً (9 أرقام تبدأ بـ 5).';
+  END IF;
+
+  v_phone := '+971' || v_national;
 
   SELECT * INTO v_settings FROM site_settings WHERE id = 1 LIMIT 1;
 
@@ -295,14 +312,7 @@ BEGIN
     subtotal, shipping_fee, total_amount, pay_now_amount,
     status, payment_status, payment_method
   ) VALUES (
-    v_order_number, trim(p_customer_name),
-    CASE
-      WHEN regexp_replace(trim(p_customer_phone), '\D', '', 'g') ~ '^968[79][0-9]{7}$'
-        THEN '+' || regexp_replace(trim(p_customer_phone), '\D', '', 'g')
-      WHEN regexp_replace(trim(p_customer_phone), '\D', '', 'g') ~ '^00968[79][0-9]{7}$'
-        THEN '+' || substring(regexp_replace(trim(p_customer_phone), '\D', '', 'g') from 3)
-      ELSE '+968' || regexp_replace(trim(p_customer_phone), '\D', '', 'g')
-    END,
+    v_order_number, trim(p_customer_name), v_phone,
     NULLIF(trim(p_customer_email), ''),
     trim(p_governorate), trim(p_wilayat), trim(p_customer_address), NULLIF(trim(p_map_location), ''),
     NULLIF(trim(p_customer_notes), ''),
@@ -1347,11 +1357,10 @@ GRANT EXECUTE ON FUNCTION save_customer_otp(UUID, TEXT) TO anon, authenticated;
 NOTIFY pgrst, 'reload schema';
 
 
--- ========== oman-phone-validation.sql ==========
--- Omani phone validation for place_guest_order
--- Run once in Supabase SQL Editor
+-- ========== uae-phone-validation.sql ==========
+-- UAE phone validation for place_guest_order
 
-CREATE OR REPLACE FUNCTION normalize_oman_phone(p_phone TEXT)
+CREATE OR REPLACE FUNCTION normalize_uae_phone(p_phone TEXT)
 RETURNS TEXT
 LANGUAGE plpgsql
 IMMUTABLE
@@ -1366,22 +1375,32 @@ BEGIN
     RETURN NULL;
   END IF;
 
-  IF digits LIKE '00968%' AND length(digits) >= 12 THEN
-    national := substring(digits from 6 for 8);
-  ELSIF digits LIKE '968%' AND length(digits) = 11 THEN
-    national := substring(digits from 4 for 8);
-  ELSIF length(digits) = 8 THEN
+  IF digits LIKE '00971%' AND length(digits) >= 14 THEN
+    national := substring(digits from 6 for 9);
+  ELSIF digits LIKE '971%' AND length(digits) >= 12 THEN
+    national := substring(digits from 4 for 9);
+  ELSIF digits LIKE '05%' AND length(digits) = 10 THEN
+    national := substring(digits from 2 for 9);
+  ELSIF length(digits) = 9 THEN
     national := digits;
   ELSE
     RETURN NULL;
   END IF;
 
-  IF national ~ '^[79][0-9]{7}$' THEN
-    RETURN '+968' || national;
+  IF national ~ '^5[0-9]{8}$' THEN
+    RETURN '+971' || national;
   END IF;
 
   RETURN NULL;
 END;
+$$;
+
+CREATE OR REPLACE FUNCTION normalize_oman_phone(p_phone TEXT)
+RETURNS TEXT
+LANGUAGE sql
+IMMUTABLE
+AS $$
+  SELECT normalize_uae_phone(p_phone);
 $$;
 
 CREATE OR REPLACE FUNCTION place_guest_order(
@@ -1420,9 +1439,9 @@ BEGIN
     RAISE EXCEPTION 'عربة التسوق فارغة.';
   END IF;
 
-  v_phone := normalize_oman_phone(p_customer_phone);
+  v_phone := normalize_uae_phone(p_customer_phone);
   IF v_phone IS NULL THEN
-    RAISE EXCEPTION 'رقم الجوال يجب أن يكون عُمانياً (8 أرقام تبدأ بـ 7 أو 9).';
+    RAISE EXCEPTION 'رقم الجوال يجب أن يكون إماراتياً (9 أرقام تبدأ بـ 5).';
   END IF;
 
   SELECT * INTO v_settings FROM site_settings WHERE id = 1 LIMIT 1;

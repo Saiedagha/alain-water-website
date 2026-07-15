@@ -11,14 +11,14 @@ import {
   WILAYATS,
   getGovernorateLabel,
   getWilayatLabel,
-} from '../data/omanLocations'
-import { isValidOmaniPhone, normalizeOmaniPhone } from '../lib/omanPhone'
+} from '../data/uaeLocations'
+import { isValidUaePhone, normalizeUaePhone } from '../lib/uaePhone'
 import { resetPageScrollDelayed } from '../lib/scrollReset'
 import SeoMeta from '../components/SeoMeta'
 import { PAGE_SEO } from '../data/seo'
 import { stringifyMapLocation } from '../lib/mapLocation'
 import { calculatePayNowAmount } from '../lib/orderAmounts'
-import OmaniPhoneInput from '../components/OmaniPhoneInput'
+import UaePhoneInput from '../components/UaePhoneInput'
 import OmanMapPicker, { MapPickerButton } from '../components/OmanMapPicker'
 
 const INITIAL_FORM = {
@@ -35,7 +35,8 @@ function buildFormFromOrder(order) {
   if (!order) return INITIAL_FORM
 
   let mobile = String(order.mobile || order.customer_phone || '').replace(/\D/g, '')
-  if (mobile.startsWith('968')) mobile = mobile.slice(3)
+  if (mobile.startsWith('971')) mobile = mobile.slice(3)
+  if (mobile.startsWith('0')) mobile = mobile.slice(1)
 
   return {
     fullName: order.fullName || order.customer_name || '',
@@ -89,7 +90,7 @@ export default function CheckoutPage() {
     if (!digits) {
       return onBlur ? c.errors.mobile : ''
     }
-    if (digits.length === 8 && !isValidOmaniPhone(digits)) {
+    if (digits.length === 9 && !isValidUaePhone(digits)) {
       return c.errors.mobileInvalid
     }
     return ''
@@ -98,7 +99,7 @@ export default function CheckoutPage() {
   const handleMobileChange = (value) => {
     setForm((current) => ({ ...current, mobile: value }))
     setErrors((current) => {
-      if (value.length === 8 && !isValidOmaniPhone(value)) {
+      if (value.length === 9 && !isValidUaePhone(value)) {
         return { ...current, mobile: c.errors.mobileInvalid }
       }
       return { ...current, mobile: '' }
@@ -118,7 +119,7 @@ export default function CheckoutPage() {
 
     if (!form.mobile.trim()) {
       next.mobile = c.errors.mobile
-    } else if (!isValidOmaniPhone(form.mobile)) {
+    } else if (!isValidUaePhone(form.mobile)) {
       next.mobile = c.errors.mobileInvalid
     }
 
@@ -135,7 +136,7 @@ export default function CheckoutPage() {
     event.preventDefault()
     if (!validate()) return
 
-    const normalizedPhone = normalizeOmaniPhone(form.mobile)
+    const normalizedPhone = normalizeUaePhone(form.mobile)
     if (!normalizedPhone) {
       setErrors((current) => ({ ...current, mobile: c.errors.mobileInvalid }))
       return
@@ -264,12 +265,13 @@ export default function CheckoutPage() {
                 <label className="block text-sm font-bold text-slate-700 mb-1.5">
                   {c.mobile}
                 </label>
-                <OmaniPhoneInput
+                <UaePhoneInput
                   value={form.mobile}
                   onChange={handleMobileChange}
                   onBlur={handleMobileBlur}
                   placeholder={c.mobilePh}
                   error={errors.mobile}
+                  hint={c.mobileHint}
                 />
               </div>
             </div>
@@ -408,7 +410,7 @@ export default function CheckoutPage() {
               <label
                 className={`block rounded-2xl border-2 p-4 cursor-pointer transition ${
                   paymentMethod === 'deposit'
-                    ? 'border-oasis-mid bg-sky-50/60'
+                    ? 'border-alain-blue bg-sky-50/60'
                     : 'border-slate-100 hover:border-sky-200'
                 }`}
               >
@@ -430,7 +432,7 @@ export default function CheckoutPage() {
               <label
                 className={`block rounded-2xl border-2 p-4 cursor-pointer transition ${
                   paymentMethod === 'full'
-                    ? 'border-oasis-mid bg-sky-50/60'
+                    ? 'border-alain-blue bg-sky-50/60'
                     : 'border-slate-100 hover:border-sky-200'
                 }`}
               >
@@ -460,7 +462,7 @@ export default function CheckoutPage() {
                     <span className="text-slate-700 font-semibold">
                       {getProductName(item, lang)} × {item.quantity}
                     </span>
-                    <span className="font-black text-oasis-mid shrink-0">
+                    <span className="font-black text-alain-blue shrink-0">
                       {(item.price * item.quantity).toFixed(3)} {t.currency}
                     </span>
                   </li>
@@ -479,7 +481,7 @@ export default function CheckoutPage() {
                 </div>
                 <div className="flex justify-between font-black text-slate-900 text-base pt-1">
                   <span>{c.payNowLabel}</span>
-                  <span className="text-oasis-mid">
+                  <span className="text-alain-blue">
                     {payNow.toFixed(3)} {t.currency}
                   </span>
                 </div>

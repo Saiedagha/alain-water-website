@@ -72,7 +72,7 @@ export default function AdminEditProduct() {
     let { error: updateError } = await supabase.from('products').update(payload).eq('id', id)
 
     if (updateError && /slug|category/i.test(updateError.message)) {
-      const { slug, category, ...rest } = payload
+      const { slug: _slug, category: _category, ...rest } = payload
       ;({ error: updateError } = await supabase.from('products').update(rest).eq('id', id))
     }
 
@@ -136,8 +136,8 @@ export default function AdminEditProduct() {
 
         <div className="grid md:grid-cols-3 gap-4">
           <div>
-            <label className={adminLabelClass}>السعر (OMR)</label>
-            <input type="number" step="0.001" className={adminInputClass} value={form.price} onChange={(e) => update('price', e.target.value)} required />
+            <label className={adminLabelClass}>السعر (AED)</label>
+            <input type="number" step="0.01" className={adminInputClass} value={form.price} onChange={(e) => update('price', e.target.value)} required />
           </div>
           <div>
             <label className={adminLabelClass}>ترتيب العرض</label>

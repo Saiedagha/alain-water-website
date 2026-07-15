@@ -20,10 +20,10 @@ function PaymentFailedFooter() {
   return (
     <div className="border-t border-slate-100 pt-5 mt-6">
       <div className="flex items-center justify-center gap-6 flex-wrap opacity-80">
-        <span className="font-bold text-sm text-[#006633]">OmanNet</span>
+        <span className="font-bold text-sm text-[#0b2e4e]">UAE Secure Pay</span>
         <div className="text-center">
           <p className="text-[10px] text-slate-400 mb-0.5">مدعوم من</p>
-          <p className="font-black text-xs text-[#c02026]">bank muscat</p>
+          <p className="font-black text-xs text-[#0077c8]">Network International</p>
         </div>
         <span className="text-[10px] font-bold text-slate-500 border border-slate-300 rounded px-1.5 py-0.5">
           PCI DSS

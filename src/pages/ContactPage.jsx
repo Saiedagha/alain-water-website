@@ -5,6 +5,7 @@ import { submitContactMessage } from '../lib/contactForm'
 import PageHero from '../components/PageHero'
 import SeoMeta from '../components/SeoMeta'
 import { PAGE_SEO } from '../data/seo'
+import { SITE_CONTACT } from '../data/alainContent'
 
 export default function ContactPage() {
   const { t, lang } = useLanguage()
@@ -16,17 +17,22 @@ export default function ContactPage() {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
 
-  const phone = settings.phone || '+96895330047'
-  const email = settings.email || 'Ainalalain@gmail.com'
-  const location = isAr ? settings.address_ar || settings.address : settings.address
-  const hours = isAr ? settings.hours_ar || settings.hours : settings.hours
+  const phone = settings.phone || SITE_CONTACT.phoneDisplay || SITE_CONTACT.phone
+  const email = settings.email || SITE_CONTACT.email
+  const whatsappDigits = String(settings.whatsapp || SITE_CONTACT.whatsapp || phone).replace(/\D/g, '')
+  const location =
+    (isAr ? settings.address_ar || settings.address : settings.address) ||
+    SITE_CONTACT.address[isAr ? 'ar' : 'en']
+  const hours =
+    (isAr ? settings.hours_ar || settings.hours : settings.hours) ||
+    SITE_CONTACT.hours[isAr ? 'ar' : 'en']
 
   const info = [
-    { label: t.contact.phone, value: phone, href: `tel:${phone}`, icon: '📞' },
+    { label: t.contact.phone, value: phone, href: `tel:${String(phone).replace(/\D/g, '')}`, icon: '📞' },
     {
       label: t.contact.whatsapp,
       value: phone,
-      href: `https://wa.me/${phone.replace(/\D/g, '')}`,
+      href: `https://wa.me/${whatsappDigits}`,
       icon: '💬',
     },
     { label: t.contact.email, value: email, href: `mailto:${email}`, icon: '✉️' },

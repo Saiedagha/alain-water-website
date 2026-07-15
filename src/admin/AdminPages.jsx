@@ -58,7 +58,7 @@ export default function AdminPages() {
                 type="button"
                 onClick={() => setSelected(page)}
                 className={`w-full text-right p-3 rounded-xl font-bold ${
-                  selected?.id === page.id ? 'bg-sky-50 border border-alain-blue/30' : 'bg-slate-50'
+                  selected?.id === page.id ? 'bg-admin-soft border border-admin/30' : 'bg-slate-50'
                 }`}
               >
                 {page.title_ar || page.title}
@@ -99,7 +99,7 @@ export default function AdminPages() {
               منشور
             </label>
 
-            {message && <p className="font-bold text-alain-blue">{message}</p>}
+            {message && <p className="font-bold text-admin">{message}</p>}
 
             <button type="button" onClick={save} disabled={saving} className={adminBtnPrimary}>
               {saving ? 'جاري الحفظ...' : 'حفظ الصفحة'}

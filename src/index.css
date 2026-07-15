@@ -6,13 +6,10 @@
   --color-alain-navy: #0b2e4e;
   --color-alain-green: #1f8a4c;
   --color-alain-footer: #1e5ebc;
-  --color-oasis-dark: #043348;
-  --color-oasis-header: #0a4d63;
-  --color-oasis-mid: #0d6b8a;
-  --color-oasis-light: #2298c3;
-  --color-oasis-accent: #38bdf8;
-  --color-oasis-footer: #0b1521;
-  --color-oasis-gold: #d4a853;
+  --color-admin: #1f8a4c;
+  --color-admin-dark: #166b3a;
+  --color-admin-deep: #0f3d24;
+  --color-admin-soft: #e8f6ee;
   --font-sans: 'Segoe UI', Tahoma, Arial, 'Helvetica Neue', sans-serif;
 }
 
@@ -91,11 +88,19 @@ html.mobile-menu-open .wa-page-float {
   animation: fade-in 0.45s ease;
 }
 
-/* Keep admin styles from oasis */
-.header-gradient {
-  background: linear-gradient(90deg, #043348 0%, #0a5a72 50%, #127a96 100%);
+.page-hero-gradient {
+  background: linear-gradient(135deg, #0b2e4e 0%, #0077c8 60%, #1e5ebc 100%);
 }
 
-.page-hero-gradient {
-  background: linear-gradient(135deg, #043348 0%, #0d6b8a 60%, #2298c3 100%);
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.admin-shell {
+  overflow-x: clip;
+}
+
+.admin-mobile-tabs a,
+.admin-mobile-tabs button {
+  -webkit-tap-highlight-color: transparent;
 }

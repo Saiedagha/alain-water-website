@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
-import { useCart } from '../context/CartContext'
 import SeoMeta from '../components/SeoMeta'
 import useProducts from '../hooks/useProducts'
 import {
@@ -13,6 +12,7 @@ import {
 function ProductCard({ product }) {
   const { lang } = useLanguage()
   const ui = UI[lang] || UI.en
+  if (!product?.slug) return null
 
   return (
     <Link to={`/products/${product.slug}`} className="group flex flex-col">
@@ -27,9 +27,12 @@ function ProductCard({ product }) {
           alt={product.name.en}
           className="h-full w-full object-contain transition duration-500 group-hover:scale-105"
           loading="lazy"
+          onError={(e) => {
+            e.currentTarget.src =
+              'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=600&q=80'
+          }}
         />
       </div>
-      {/* Light info bar like original alainwater.com cards */}
       <div className="bg-[#eef5fa] px-3 py-3 text-center">
         <p className="text-sm font-semibold leading-snug text-slate-800 line-clamp-2 min-h-[2.5rem]">
           {product.name[lang] || product.name.en}
@@ -313,214 +316,4 @@ function NAV_TITLE(slug, lang, ui) {
     subscriptions: lang === 'ar' ? 'الاشتراكات' : 'Subscriptions',
   }
   return map[slug] || ui.allProducts
-}
-
-export function ProductDetailsPage() {
-  const { slug } = useParams()
-  const { lang } = useLanguage()
-  const ui = UI[lang] || UI.en
-  const { addItem } = useCart()
-  const { products: allProducts, loading } = useProducts()
-  const product = allProducts.find((p) => p.slug === slug)
-  const [qty, setQty] = useState(1)
-  const [imgIndex, setImgIndex] = useState(0)
-
-  if (loading) {
-    return (
-      <div className="mx-auto max-w-3xl px-4 py-20 text-center text-slate-500">
-        {lang === 'ar' ? 'جاري التحميل…' : 'Loading…'}
-      </div>
-    )
-  }
-
-  if (!product) {
-    return (
-      <div className="mx-auto max-w-3xl px-4 py-20 text-center">
-        <p className="mb-4 text-xl font-bold">Product not found</p>
-        <Link to="/products" className="btn-primary">
-          {ui.allProducts}
-        </Link>
-      </div>
-    )
-  }
-
-  const name = product.name[lang] || product.name.en
-  const images = product.images?.length ? product.images : [product.image]
-  const related = allProducts
-    .filter((p) => p.category === product.category && p.id !== product.id)
-    .slice(0, 4)
-
-  const add = () => {
-    addItem({
-      id: product.id,
-      name: product.name.en,
-      nameAr: product.name.ar,
-      price: product.price,
-      images: product.images?.length ? product.images : [product.image],
-      quantity: qty,
-      isInStock: product.isInStock !== false,
-    })
-  }
-
-  return (
-    <>
-      <SeoMeta title={`${name} – Al Ain Water`} path={`/products/${slug}`} />
-      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 md:py-12">
-        <nav className="mb-6 text-sm text-slate-500">
-          <Link to="/" className="hover:text-alain-blue">
-            {ui.home}
-          </Link>
-          <span className="mx-2">/</span>
-          <Link to="/products" className="hover:text-alain-blue">
-            Shop
-          </Link>
-          <span className="mx-2">/</span>
-          <span className="text-slate-800">{name}</span>
-        </nav>
-
-        <div className="grid gap-8 lg:grid-cols-[72px_1fr_1fr] lg:gap-10">
-          {/* Desktop vertical thumbs */}
-          <div className="hidden flex-col gap-2 lg:flex">
-            {images.map((src, i) => (
-              <button
-                key={src + i}
-                type="button"
-                onClick={() => setImgIndex(i)}
-                className={`aspect-square overflow-hidden border bg-white p-1 ${
-                  i === imgIndex ? 'border-alain-blue' : 'border-slate-200'
-                }`}
-              >
-                <img src={src} alt="" className="h-full w-full object-contain" />
-              </button>
-            ))}
-          </div>
-
-          {/* Main image + mobile swipe */}
-          <div>
-            <div className="relative flex aspect-square items-center justify-center bg-[#f7fafc]">
-              <img src={images[imgIndex]} alt={name} className="max-h-full max-w-full object-contain p-4" />
-              {images.length > 1 && (
-                <>
-                  <button
-                    type="button"
-                    className="absolute start-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow"
-                    onClick={() => setImgIndex((i) => (i - 1 + images.length) % images.length)}
-                    aria-label="Prev"
-                  >
-                    ‹
-                  </button>
-                  <button
-                    type="button"
-                    className="absolute end-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow"
-                    onClick={() => setImgIndex((i) => (i + 1) % images.length)}
-                    aria-label="Next"
-                  >
-                    ›
-                  </button>
-                </>
-              )}
-            </div>
-            {/* Mobile horizontal thumbs */}
-            {images.length > 1 && (
-              <div
-                className="mt-3 flex gap-2 overflow-x-auto snap-x lg:hidden"
-                style={{ scrollbarWidth: 'none' }}
-              >
-                {images.map((src, i) => (
-                  <button
-                    key={src + i}
-                    type="button"
-                    onClick={() => setImgIndex(i)}
-                    className={`h-16 w-16 shrink-0 snap-start overflow-hidden border bg-white p-1 ${
-                      i === imgIndex ? 'border-alain-blue' : 'border-slate-200'
-                    }`}
-                  >
-                    <img src={src} alt="" className="h-full w-full object-contain" />
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div>
-            <h1 className="text-2xl font-black uppercase leading-tight text-slate-900 md:text-3xl">{name}</h1>
-            <p className="mt-3 text-xl font-bold text-slate-800">
-              {product.price.toFixed(2)} {ui.aed}
-            </p>
-
-            <div className="mt-6 flex items-center gap-0 border border-slate-300">
-              <button
-                type="button"
-                className="h-11 w-11 text-lg font-bold"
-                onClick={() => setQty((q) => Math.max(1, q - 1))}
-              >
-                −
-              </button>
-              <span className="flex h-11 min-w-[3rem] items-center justify-center border-x border-slate-300 font-semibold">
-                {qty}
-              </span>
-              <button type="button" className="h-11 w-11 text-lg font-bold" onClick={() => setQty((q) => q + 1)}>
-                +
-              </button>
-            </div>
-
-            <button
-              type="button"
-              onClick={add}
-              className="mt-4 w-full bg-alain-blue py-3.5 text-sm font-bold uppercase tracking-wide text-white hover:bg-alain-blue-dark"
-            >
-              {ui.addToCart}
-            </button>
-
-            {product.bullets?.length > 0 && (
-              <ul className="mt-8 list-disc space-y-2 ps-5 text-sm leading-7 text-slate-600">
-                {product.bullets.map((b) => (
-                  <li key={b}>{b}</li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </div>
-
-        {/* Mobile sticky cart bar like original PDP */}
-        <div className="fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white p-3 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] lg:hidden">
-          <div className="mx-auto flex max-w-lg items-center gap-3">
-            <img src={product.image} alt="" className="h-12 w-12 object-contain" />
-            <div className="min-w-0 flex-1">
-              <p className="truncate text-xs font-semibold text-slate-800">{name}</p>
-              <p className="text-sm font-bold">
-                {product.price.toFixed(2)} {ui.aed}
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={add}
-              className="shrink-0 bg-alain-blue px-4 py-2.5 text-xs font-bold uppercase text-white"
-            >
-              {ui.addToCart}
-            </button>
-          </div>
-        </div>
-        <div className="h-20 lg:hidden" />
-
-        {related.length > 0 && (
-          <section className="mt-16">
-            <h2 className="mb-6 text-xl font-black uppercase text-slate-900">
-              {lang === 'ar' ? 'قد يعجبك أيضاً' : 'You may also like'}
-            </h2>
-            <div
-              className="flex gap-4 overflow-x-auto snap-x pb-2 md:grid md:grid-cols-4 md:overflow-visible"
-              style={{ scrollbarWidth: 'none' }}
-            >
-              {related.map((p) => (
-                <div key={p.id} className="w-[58%] shrink-0 snap-start md:w-auto">
-                  <ProductCard product={p} />
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-      </div>
-    </>
-  )
 }

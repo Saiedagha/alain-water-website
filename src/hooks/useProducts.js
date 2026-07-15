@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { ALL_PRODUCTS } from '../data/alainContent'
 import { ALL_PRODUCTS_RAW } from '../data/catalog'
+import { enrichStoreProduct, slugifyProduct } from '../lib/productContent'
 import { isSupabaseConfigured, supabase } from '../lib/supabase'
 
 function parseGallery(gallery) {
@@ -32,8 +33,9 @@ function parseBullets(bullets) {
 function findCatalogMeta(product) {
   const nameEn = product.name?.en || product.name || product.nameEn || ''
   const nameAr = product.name?.ar || product.name_ar || product.nameAr || ''
+  const slug = product.slug || ''
   return (
-    ALL_PRODUCTS_RAW.find((c) => c.slug && c.slug === product.slug) ||
+    ALL_PRODUCTS_RAW.find((c) => c.slug && (c.slug === slug || c.slug === slugifyProduct(nameEn))) ||
     ALL_PRODUCTS_RAW.find((c) => c.name?.en === nameEn || c.name?.ar === nameAr) ||
     null
   )
@@ -57,9 +59,9 @@ export function mapDbProduct(product) {
   const nameAr =
     product.name?.ar || product.name_ar || product.nameAr || catalog?.name?.ar || nameEn
 
-  return {
+  const mapped = {
     id: product.id,
-    slug: product.slug || catalog?.slug || '',
+    slug: product.slug || catalog?.slug || slugifyProduct(nameEn) || String(product.id),
     category: product.category || catalog?.category || '',
     badge: product.badge || catalog?.badge || null,
     bullets: parseBullets(product.bullets?.length ? product.bullets : catalog?.bullets),
@@ -76,10 +78,23 @@ export function mapDbProduct(product) {
     isInStock: product.is_in_stock !== false && product.isInStock !== false,
     sortOrder: product.sort_order || product.sortOrder || 0,
   }
+
+  return enrichStoreProduct(mapped)
 }
 
 function mapCatalogFallback() {
   return ALL_PRODUCTS.map((p) => mapDbProduct(p))
+}
+
+export function findProductBySlug(products, slug) {
+  if (!slug) return null
+  const clean = String(slug).toLowerCase()
+  return (
+    products.find((p) => p.slug === clean) ||
+    products.find((p) => slugifyProduct(p.name?.en || p.nameEn) === clean) ||
+    products.find((p) => String(p.id) === String(slug)) ||
+    null
+  )
 }
 
 export default function useProducts() {
@@ -110,13 +125,14 @@ export default function useProducts() {
 
     if (fetchError) {
       setError(fetchError.message)
-      setProducts([])
+      setProducts(mapCatalogFallback())
       setFromDb(false)
     } else if (!data?.length) {
-      setProducts([])
+      setProducts(mapCatalogFallback())
       setFromDb(true)
     } else {
-      setProducts(data.map(mapDbProduct))
+      const mapped = data.map(mapDbProduct).filter((p) => p.slug)
+      setProducts(mapped.length ? mapped : mapCatalogFallback())
       setFromDb(true)
     }
 
@@ -129,7 +145,7 @@ export default function useProducts() {
     if (!isSupabaseConfigured || !supabase) return undefined
 
     const channel = supabase
-      .channel('storefront-products')
+      .channel(`storefront-products-${crypto.randomUUID()}`)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, () => {
         load()
       })

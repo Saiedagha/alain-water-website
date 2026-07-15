@@ -1,11 +1,11 @@
-const BANK_RED = '#c02026'
+const BANK_BLUE = '#0b4f8a'
 
-export function BankMuscatPaymentHeader({ payTo, amount, currency }) {
+export function UaeSecurePayHeader({ payTo, amount, currency }) {
   return (
     <header
       dir="ltr"
       className="w-full shrink-0 px-4 sm:px-6 md:px-8 py-3 sm:py-3.5 flex items-center justify-between gap-4"
-      style={{ backgroundColor: BANK_RED }}
+      style={{ backgroundColor: BANK_BLUE }}
     >
       <div className="text-white min-w-0">
         <p className="text-[11px] sm:text-xs font-medium opacity-95 truncate">{payTo}</p>
@@ -14,20 +14,18 @@ export function BankMuscatPaymentHeader({ payTo, amount, currency }) {
         </p>
       </div>
 
-      <div className="bg-white rounded-md px-2.5 sm:px-3 py-1.5 sm:py-2 shrink-0 shadow-sm">
-        <img
-          src="/images/bank-muscat-logo.png"
-          alt="بنك مسقط - bank muscat"
-          className="h-7 sm:h-8 md:h-9 w-auto object-contain"
-          loading="eager"
-          decoding="async"
-        />
+      <div className="bg-white rounded-md px-2.5 sm:px-3 py-1.5 sm:py-2 shrink-0 shadow-sm text-center leading-tight">
+        <p className="text-[#0b2e4e] font-black text-xs sm:text-sm tracking-wide">UAE</p>
+        <p className="text-[#0077c8] font-semibold text-[9px] sm:text-[10px]">Secure Pay</p>
       </div>
     </header>
   )
 }
 
-export function PaymentGatewayFooter({ poweredByLabel = 'Powered by Bank Muscat' }) {
+/** @deprecated use UaeSecurePayHeader */
+export const BankMuscatPaymentHeader = UaeSecurePayHeader
+
+export function PaymentGatewayFooter({ poweredByLabel = 'Powered by Network International' }) {
   return (
     <footer className="w-full shrink-0 border-t border-slate-200 bg-white px-4 sm:px-6 py-3 sm:py-4">
       <div
@@ -35,8 +33,8 @@ export function PaymentGatewayFooter({ poweredByLabel = 'Powered by Bank Muscat'
         className="max-w-3xl mx-auto flex items-center justify-between gap-3 sm:gap-6 text-[10px] sm:text-xs"
       >
         <div className="text-center leading-tight shrink-0">
-          <p className="font-bold text-[#006633] text-sm sm:text-base">OmanNet</p>
-          <p className="text-[#006633] font-semibold text-[9px] sm:text-[10px] mt-0.5">عمان نت</p>
+          <p className="font-bold text-[#0b2e4e] text-sm sm:text-base">UAE</p>
+          <p className="text-[#0077c8] font-semibold text-[9px] sm:text-[10px] mt-0.5">Secure Pay</p>
         </div>
 
         <p className="text-[#1a3a6b] font-semibold text-center flex-1 px-1">{poweredByLabel}</p>
@@ -51,4 +49,4 @@ export function PaymentGatewayFooter({ poweredByLabel = 'Powered by Bank Muscat'
   )
 }
 
-export { BANK_RED }
+export { BANK_BLUE as BANK_RED }

@@ -64,7 +64,7 @@ function buildPayload(product, index, includeSlug) {
 }
 
 async function loginAdmin() {
-  const email = env.SEED_ADMIN_EMAIL || 'admin@oasis.om'
+  const email = env.SEED_ADMIN_EMAIL || 'admin@alainwater.com'
   const password = env.SEED_ADMIN_PASSWORD || 'Admin123456'
   const { error } = await supabase.auth.signInWithPassword({ email, password })
   if (error) throw new Error(`Admin login failed: ${error.message}`)

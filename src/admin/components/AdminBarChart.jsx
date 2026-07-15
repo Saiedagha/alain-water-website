@@ -15,13 +15,13 @@
           <div key={item[labelKey]}>
             <div className="flex items-center justify-between gap-3 text-sm font-bold mb-1">
               <span className="text-slate-700 truncate">{item[labelKey]}</span>
-              <span className="text-alain-blue shrink-0">
+              <span className="text-admin shrink-0">
                 {formatValue ? formatValue(value) : value}
               </span>
             </div>
             <div className="h-2.5 rounded-full bg-slate-100 overflow-hidden">
               <div
-                className="h-full rounded-full bg-gradient-to-l from-sky-500 to-alain-blue-dark transition-all"
+                className="h-full rounded-full bg-gradient-to-l from-emerald-400 to-admin-dark transition-all"
                 style={{ width }}
               />
             </div>

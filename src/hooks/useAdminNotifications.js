@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 
-const LAST_SEEN_KEY = 'oasis_admin_last_seen_messages'
+const LAST_SEEN_KEY = 'alain_admin_last_seen_messages'
 const POLL_MS = 30000
 
 export function markContactMessagesSeen() {
@@ -48,8 +48,8 @@ export default function useAdminNotifications() {
 
   useEffect(() => {
     const handler = () => fetchCounts()
-    window.addEventListener('oasis-contact-seen', handler)
-    return () => window.removeEventListener('oasis-contact-seen', handler)
+    window.addEventListener('alain-contact-seen', handler)
+    return () => window.removeEventListener('alain-contact-seen', handler)
   }, [fetchCounts])
 
   return counts

@@ -74,7 +74,7 @@ export function useOmanLeafletMap({ value, onPick, enabled = true }) {
       const start = initialValue || OMAN_CENTER
       const map = L.map(container, {
         center: [start.lat, start.lng],
-        zoom: initialValue ? 15 : 7,
+        zoom: initialValue ? 15 : 8,
         minZoom: 6,
         maxZoom: 18,
         maxBounds: OMAN_BOUNDS,

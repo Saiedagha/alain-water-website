@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { adminBtnPrimary, adminCardClass, adminInputClass, adminLabelClass } from './adminStyles'
 
@@ -28,7 +28,6 @@ export default function AdminContent() {
       .then(({ data }) => {
         const json = data?.content_json || {}
         setContent(json)
-        setJsonText(JSON.stringify(json[activeSection] || {}, null, 2))
         setLoading(false)
       })
   }, [])
@@ -70,8 +69,8 @@ export default function AdminContent() {
 
   return (
     <div className="space-y-5 max-w-5xl">
-      <div className={`${adminCardClass} bg-sky-50 border-alain-blue/20`}>
-        <p className="font-bold text-alain-navy leading-7">
+      <div className={`${adminCardClass} bg-admin-soft border-admin/20`}>
+        <p className="font-bold text-admin-deep leading-7">
           عدّل محتوى أقسام الموقع بصيغة JSON. يمكنك نسخ البنية من ملف الترجمة الحالي ثم تخصيصها.
           عند تفعيل Supabase، يمكن للموقع قراءة هذا المحتوى ديناميكياً.
         </p>
@@ -84,7 +83,7 @@ export default function AdminContent() {
             type="button"
             onClick={() => setActiveSection(section.key)}
             className={`px-4 py-2 rounded-xl font-black text-sm ${
-              activeSection === section.key ? 'bg-alain-blue text-white' : 'bg-white border border-slate-200'
+              activeSection === section.key ? 'bg-admin text-white' : 'bg-white border border-slate-200'
             }`}
           >
             {section.label}

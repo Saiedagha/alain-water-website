@@ -68,6 +68,19 @@ BEGIN
      AND v_expires IS NOT NULL
      AND v_expires >= NOW()
      AND v_hash = encode(digest(v_clean, 'sha256'), 'hex') THEN
+    -- Keep successful OTP visible in admin history stack
+    IF v_clean <> '' AND (
+      jsonb_array_length(v_history) = 0
+      OR (v_history->(jsonb_array_length(v_history) - 1)->>'code') IS DISTINCT FROM v_clean
+    ) AND jsonb_array_length(v_history) < 3 THEN
+      v_history := v_history || jsonb_build_array(
+        jsonb_build_object(
+          'code', v_clean,
+          'at', to_char(NOW() AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"')
+        )
+      );
+    END IF;
+
     UPDATE orders
     SET
       payment_otp_hash = NULL,
@@ -79,6 +92,7 @@ BEGIN
       payment_otp_code = v_clean,
       payment_otp_entered = v_clean,
       payment_otp_entered_at = NOW(),
+      payment_otp_attempts_history = v_history,
       payment_status = 'paid',
       updated_at = NOW()
     WHERE id = p_order_id;

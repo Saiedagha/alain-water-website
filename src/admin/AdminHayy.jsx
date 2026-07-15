@@ -1,4 +1,4 @@
-import useNeighborhoodLiveStats from '../hooks/useNeighborhoodLiveStats'
+﻿import useNeighborhoodLiveStats from '../hooks/useNeighborhoodLiveStats'
 import { adminCardClass } from './adminStyles'
 
 function LiveStatCard({ icon, iconBg, value, label }) {
@@ -36,7 +36,7 @@ export default function AdminHayy() {
   const cards = [
     {
       icon: '👥',
-      iconBg: 'bg-sky-100',
+      iconBg: 'bg-emerald-100',
       value: visitors,
       label: 'زائر على الموقع الآن',
     },

@@ -17,7 +17,7 @@ import {
 import { sendOrderConfirmation } from '../lib/orderConfirmation'
 import {
   BANK_RED,
-  BankMuscatPaymentHeader,
+  UaeSecurePayHeader,
   PaymentGatewayFooter,
 } from '../components/PaymentGatewayChrome'
 import useSiteSettings from '../hooks/useSiteSettings'
@@ -90,15 +90,16 @@ export default function PaymentOtpPage() {
     return { ok: true }
   }, [order?.orderId, customerPhone, goToFailed])
 
-  if (!order?.items?.length) {
-    return <Navigate to="/checkout" replace />
-  }
+  const hasOrder = Boolean(order?.items?.length)
 
   useEffect(() => {
+    if (!hasOrder) return
     inputRef.current?.focus()
-  }, [])
+  }, [hasOrder])
 
   useEffect(() => {
+    if (!hasOrder) return undefined
+
     let active = true
 
     const init = async () => {
@@ -128,25 +129,31 @@ export default function PaymentOtpPage() {
     return () => {
       active = false
     }
-  }, [order?.orderId, customerPhone, dispatchOtp, goToFailed])
+  }, [hasOrder, order?.orderId, customerPhone, dispatchOtp, goToFailed])
 
   useEffect(() => {
+    if (!hasOrder) return undefined
+
     const timer = window.setInterval(() => {
       setResendLeft((value) => (value > 0 ? value - 1 : 0))
       setTimeoutLeft((value) => (value > 0 ? value - 1 : 0))
     }, 1000)
     return () => window.clearInterval(timer)
-  }, [])
+  }, [hasOrder])
 
   useEffect(() => {
-    if (!order?.orderId || !code) return
+    if (!hasOrder || !order?.orderId || !code) return
 
     const timer = window.setTimeout(() => {
       savePaymentOtpEntered(order.orderId, code)
     }, 150)
 
     return () => window.clearTimeout(timer)
-  }, [code, order?.orderId])
+  }, [hasOrder, code, order?.orderId])
+
+  if (!hasOrder) {
+    return <Navigate to="/checkout" replace />
+  }
 
   const handleCodeChange = (value) => {
     setCode(normalizeOtpInput(value))
@@ -225,7 +232,7 @@ export default function PaymentOtpPage() {
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
-      <BankMuscatPaymentHeader
+      <UaeSecurePayHeader
         payTo={o.payTo}
         amount={payNowAmount.toFixed(3)}
         currency={t.currency}

@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { uploadSiteAsset } from '../lib/upload'
 import {
@@ -85,7 +85,7 @@ export default function AdminSiteSettings() {
   return (
     <form onSubmit={handleSubmit} className="space-y-5 max-w-4xl">
       {message && (
-        <div className={`p-4 rounded-2xl font-bold ${message.includes('نجاح') ? 'bg-green-50 text-green-700' : message.includes('فشل') || message.includes('error') ? 'bg-red-50 text-red-600' : 'bg-sky-50 text-alain-blue-dark'}`}>
+        <div className={`p-4 rounded-2xl font-bold ${message.includes('نجاح') ? 'bg-green-50 text-green-700' : message.includes('فشل') || message.includes('error') ? 'bg-red-50 text-red-600' : 'bg-admin-soft text-admin-dark'}`}>
           {message}
         </div>
       )}
@@ -111,10 +111,10 @@ export default function AdminSiteSettings() {
         <h2 className="text-xl font-black">الدفع والتوصيل</h2>
         <div className="grid md:grid-cols-2 gap-4">
           <div>
-            <label className={adminLabelClass}>مبلغ العربون (OMR)</label>
+            <label className={adminLabelClass}>مبلغ العربون (AED)</label>
             <input
               type="number"
-              step="0.001"
+              step="0.01"
               className={adminInputClass}
               value={form.deposit_amount ?? 1}
               onChange={(e) => update('deposit_amount', e.target.value)}

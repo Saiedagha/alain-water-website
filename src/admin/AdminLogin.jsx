@@ -73,18 +73,18 @@ export default function AdminLogin() {
       dir="rtl"
       style={{
         background:
-          'radial-gradient(ellipse at top, #e8f4fc 0%, #f7fbfe 45%, #ffffff 100%)',
+          'radial-gradient(ellipse at top, #e8f6ee 0%, #f4fbf7 45%, #ffffff 100%)',
       }}
     >
-      <div className="w-full max-w-[1080px] grid grid-cols-1 lg:grid-cols-2 bg-white rounded-[28px] border border-slate-100 shadow-[0_20px_60px_rgba(0,119,200,0.12)] overflow-hidden">
+      <div className="w-full max-w-[1080px] grid grid-cols-1 lg:grid-cols-2 bg-white rounded-[28px] border border-slate-100 shadow-[0_20px_60px_rgba(31,138,76,0.14)] overflow-hidden">
         <div
           className="hidden lg:flex flex-col justify-between p-10 text-white relative overflow-hidden"
           style={{
-            background: 'linear-gradient(160deg, #0b2e4e 0%, #005fa3 48%, #0077c8 100%)',
+            background: 'linear-gradient(160deg, #0f3d24 0%, #166b3a 48%, #1f8a4c 100%)',
           }}
         >
           <div className="absolute -top-16 -start-16 w-56 h-56 rounded-full bg-white/10 blur-2xl" />
-          <div className="absolute bottom-10 -end-10 w-40 h-40 rounded-full bg-[#1f8a4c]/30 blur-xl" />
+          <div className="absolute bottom-10 -end-10 w-40 h-40 rounded-full bg-emerald-300/30 blur-xl" />
 
           <div className="relative z-10">
             <img
@@ -92,7 +92,7 @@ export default function AdminLogin() {
               alt="Al Ain Water"
               className="h-16 w-auto object-contain bg-white/95 rounded-2xl px-3 py-2 mb-8"
             />
-            <p className="text-sky-200 text-sm font-bold tracking-wide mb-2">AL AIN WATER</p>
+            <p className="text-emerald-100 text-sm font-bold tracking-wide mb-2">AL AIN WATER</p>
             <h1 className="text-4xl xl:text-5xl font-black leading-tight">لوحة تحكم العين</h1>
             <p className="text-white/75 mt-4 font-bold leading-8 max-w-sm">
               إدارة المنتجات والطلبات والمحتوى بإطلالة مميزة لعلامة مياه العين.
@@ -101,11 +101,11 @@ export default function AdminLogin() {
 
           <div className="relative z-10 grid grid-cols-2 gap-4">
             <div className="rounded-2xl border border-white/15 bg-white/10 backdrop-blur px-4 py-5">
-              <p className="text-sky-100/80 text-xs font-bold">المنتجات</p>
+              <p className="text-emerald-100/80 text-xs font-bold">المنتجات</p>
               <p className="text-xl font-black mt-2">كتالوج المياه</p>
             </div>
             <div className="rounded-2xl border border-white/15 bg-white/10 backdrop-blur px-4 py-5">
-              <p className="text-sky-100/80 text-xs font-bold">الطلبات</p>
+              <p className="text-emerald-100/80 text-xs font-bold">الطلبات</p>
               <p className="text-xl font-black mt-2">متابعة مباشرة</p>
             </div>
           </div>
@@ -118,7 +118,7 @@ export default function AdminLogin() {
               alt="Al Ain Water"
               className="h-14 w-auto object-contain mx-auto lg:mx-0 mb-5"
             />
-            <h1 className="text-3xl md:text-4xl font-black text-alain-navy">تسجيل الدخول</h1>
+            <h1 className="text-3xl md:text-4xl font-black text-admin-deep">تسجيل الدخول</h1>
             <p className="text-slate-500 mt-3 font-bold leading-7">
               ادخل بيانات أدمن موقع العين
             </p>
@@ -135,7 +135,7 @@ export default function AdminLogin() {
               <label className="block mb-2 text-sm font-black text-slate-700">البريد الإلكتروني</label>
               <input
                 type="email"
-                className="w-full border border-slate-200 rounded-full px-5 py-3.5 outline-none focus:border-alain-blue focus:ring-4 focus:ring-alain-blue/10 text-left bg-slate-50/50"
+                className="w-full border border-slate-200 rounded-full px-5 py-3.5 outline-none focus:border-admin focus:ring-4 focus:ring-admin/10 text-left bg-slate-50/50"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 dir="ltr"
@@ -146,7 +146,7 @@ export default function AdminLogin() {
               <label className="block mb-2 text-sm font-black text-slate-700">كلمة المرور</label>
               <input
                 type="password"
-                className="w-full border border-slate-200 rounded-full px-5 py-3.5 outline-none focus:border-alain-blue focus:ring-4 focus:ring-alain-blue/10 text-left bg-slate-50/50"
+                className="w-full border border-slate-200 rounded-full px-5 py-3.5 outline-none focus:border-admin focus:ring-4 focus:ring-admin/10 text-left bg-slate-50/50"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 dir="ltr"
@@ -158,14 +158,14 @@ export default function AdminLogin() {
           <button
             type="submit"
             disabled={loading}
-            className="mt-7 w-full bg-alain-blue text-white py-4 rounded-full font-black text-lg hover:bg-alain-blue-dark disabled:opacity-60 transition shadow-lg shadow-alain-blue/25"
+            className="mt-7 w-full bg-admin text-white py-4 rounded-full font-black text-lg hover:bg-admin-dark disabled:opacity-60 transition shadow-lg shadow-admin/25"
           >
             {loading ? 'جاري تسجيل الدخول...' : 'دخول لوحة العين'}
           </button>
 
           <Link
             to="/"
-            className="mt-4 block text-center border border-slate-200 text-alain-navy py-3.5 rounded-full font-black hover:bg-slate-50 transition"
+            className="mt-4 block text-center border border-slate-200 text-admin-deep py-3.5 rounded-full font-black hover:bg-slate-50 transition"
           >
             الرجوع للموقع
           </Link>

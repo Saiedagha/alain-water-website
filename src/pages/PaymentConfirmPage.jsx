@@ -6,7 +6,7 @@ import { isSupabaseConfigured, supabase } from '../lib/supabase'
 import { clearFailedOtpAttempts } from '../lib/paymentOtp'
 import { detectCardBrand, getLiveCardNumberError, validateCardForm } from '../lib/cardValidation'
 import PaymentLoadingOverlay from '../components/PaymentLoadingOverlay'
-import BankMuscatGateway from '../components/BankMuscatGateway'
+import UaePaymentGateway from '../components/BankMuscatGateway'
 import useSiteSettings from '../hooks/useSiteSettings'
 import { calculatePayNowAmount } from '../lib/orderAmounts'
 
@@ -276,7 +276,7 @@ export default function PaymentConfirmPage() {
           )}
         </div>
 
-        <BankMuscatGateway />
+        <UaePaymentGateway />
 
         <div className="rounded-2xl bg-[#eef6fc] border border-[#b8ddf0] px-4 py-3 flex items-center justify-center gap-2.5 text-center">
           <CardIcon />

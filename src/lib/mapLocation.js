@@ -1,12 +1,17 @@
-export const OMAN_CENTER = { lat: 23.588, lng: 58.3829 }
-export const OMAN_BOUNDS = [
-  [16.4, 52.0],
-  [26.6, 60.0],
+export const UAE_CENTER = { lat: 25.2048, lng: 55.2708 }
+export const UAE_BOUNDS = [
+  [22.5, 51.4],
+  [26.6, 56.6],
 ]
 
-export function isInsideOman(lat, lng) {
-  return lat >= 16.4 && lat <= 26.6 && lng >= 52.0 && lng <= 60.0
+export const OMAN_CENTER = UAE_CENTER
+export const OMAN_BOUNDS = UAE_BOUNDS
+
+export function isInsideUae(lat, lng) {
+  return lat >= 22.5 && lat <= 26.6 && lng >= 51.4 && lng <= 56.6
 }
+
+export const isInsideOman = isInsideUae
 
 export function parseMapLocation(value) {
   if (!value) return null

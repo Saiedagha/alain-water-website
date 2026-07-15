@@ -1,4 +1,4 @@
-import { GOVERNORATES } from '../data/omanLocations'
+import { GOVERNORATES } from '../data/uaeLocations'
 
 export const REPORT_PERIODS = [
   { id: 'today', label: 'اليوم', days: 1 },
@@ -133,7 +133,7 @@ export function exportOrdersCsv(orders) {
   const url = URL.createObjectURL(blob)
   const link = document.createElement('a')
   link.href = url
-  link.download = `oasis-orders-${new Date().toISOString().slice(0, 10)}.csv`
+  link.download = `alain-orders-${new Date().toISOString().slice(0, 10)}.csv`
   link.click()
   URL.revokeObjectURL(url)
 }

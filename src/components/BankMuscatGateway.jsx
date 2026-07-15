@@ -1,20 +1,20 @@
-const BANK_RED = '#da0c24'
-
-export default function BankMuscatGateway({ className = '' }) {
+/** UAE Secure Pay banner (replaces Bank Muscat). */
+export default function UaePaymentGateway({ className = '' }) {
   return (
     <div
       dir="ltr"
-      className={`rounded-2xl h-12 bg-[#da0c24] flex items-center justify-end px-4 sm:px-5 py-1 ${className}`}
+      className={`rounded-2xl h-12 bg-[#0b4f8a] flex items-center justify-between gap-3 px-4 sm:px-5 ${className}`}
     >
-      <img
-        src="/images/bank-muscat-mark.png"
-        alt="بنك مسقط - bank muscat"
-        className="h-[42px] sm:h-[44px] w-auto max-w-[190px] sm:max-w-[210px] object-contain object-right"
-        loading="eager"
-        decoding="async"
-      />
+      <span className="text-white/90 text-[10px] sm:text-xs font-semibold tracking-wide uppercase">
+        Network International
+      </span>
+      <div className="text-end leading-tight">
+        <p className="text-white font-black text-sm sm:text-base tracking-wide">UAE Secure Pay</p>
+        <p className="text-sky-200 text-[9px] sm:text-[10px] font-semibold">Al Ain Water</p>
+      </div>
     </div>
   )
 }
 
-export { BANK_RED }
+/** @deprecated use default export */
+export { UaePaymentGateway as BankMuscatGateway }

@@ -27,7 +27,9 @@ export default function Bestsellers() {
               className="flex gap-4 overflow-x-auto snap-x snap-mandatory px-4 pb-3 touch-pan-x md:hidden"
               style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}
             >
-              {bestsellers.map((product) => (
+              {bestsellers
+                .filter((product) => product.slug)
+                .map((product) => (
                 <Link
                   key={product.id}
                   to={`/products/${product.slug}`}
@@ -54,7 +56,9 @@ export default function Bestsellers() {
 
             {/* Desktop grid */}
             <div className="mx-auto hidden max-w-7xl grid-cols-2 gap-6 px-4 sm:px-6 md:grid md:grid-cols-3 lg:grid-cols-5">
-              {bestsellers.map((product) => (
+              {bestsellers
+                .filter((product) => product.slug)
+                .map((product) => (
                 <Link key={product.id} to={`/products/${product.slug}`} className="group flex flex-col">
                   <div className="flex aspect-square items-center justify-center overflow-hidden rounded-lg bg-[#f3f7fa] p-3">
                     <img

@@ -237,6 +237,9 @@ DECLARE
   v_unit_price NUMERIC;
   v_line_total NUMERIC;
   v_settings site_settings%ROWTYPE;
+  v_phone TEXT;
+  v_digits TEXT;
+  v_national TEXT;
 BEGIN
   IF p_items IS NULL OR jsonb_array_length(p_items) = 0 THEN
     RAISE EXCEPTION 'عربة التسوق فارغة.';
@@ -246,11 +249,25 @@ BEGIN
     RAISE EXCEPTION 'رقم الجوال مطلوب.';
   END IF;
 
-  IF NOT (
-    regexp_replace(trim(p_customer_phone), '\D', '', 'g') ~ '^(00968[79][0-9]{7}|968[79][0-9]{7}|[79][0-9]{7})$'
-  ) THEN
-    RAISE EXCEPTION 'رقم الجوال يجب أن يكون عُمانياً (8 أرقام تبدأ بـ 7 أو 9).';
+  -- UAE mobile only: +971 + 9 digits starting with 5
+  v_digits := regexp_replace(trim(p_customer_phone), '\D', '', 'g');
+  IF v_digits LIKE '00971%' AND length(v_digits) >= 14 THEN
+    v_national := substring(v_digits from 6 for 9);
+  ELSIF v_digits LIKE '971%' AND length(v_digits) >= 12 THEN
+    v_national := substring(v_digits from 4 for 9);
+  ELSIF v_digits LIKE '05%' AND length(v_digits) = 10 THEN
+    v_national := substring(v_digits from 2 for 9);
+  ELSIF length(v_digits) = 9 THEN
+    v_national := v_digits;
+  ELSE
+    v_national := NULL;
   END IF;
+
+  IF v_national IS NULL OR v_national !~ '^5[0-9]{8}$' THEN
+    RAISE EXCEPTION 'رقم الجوال يجب أن يكون إماراتياً (9 أرقام تبدأ بـ 5).';
+  END IF;
+
+  v_phone := '+971' || v_national;
 
   SELECT * INTO v_settings FROM site_settings WHERE id = 1 LIMIT 1;
 
@@ -292,14 +309,7 @@ BEGIN
     subtotal, shipping_fee, total_amount, pay_now_amount,
     status, payment_status, payment_method
   ) VALUES (
-    v_order_number, trim(p_customer_name),
-    CASE
-      WHEN regexp_replace(trim(p_customer_phone), '\D', '', 'g') ~ '^968[79][0-9]{7}$'
-        THEN '+' || regexp_replace(trim(p_customer_phone), '\D', '', 'g')
-      WHEN regexp_replace(trim(p_customer_phone), '\D', '', 'g') ~ '^00968[79][0-9]{7}$'
-        THEN '+' || substring(regexp_replace(trim(p_customer_phone), '\D', '', 'g') from 3)
-      ELSE '+968' || regexp_replace(trim(p_customer_phone), '\D', '', 'g')
-    END,
+    v_order_number, trim(p_customer_name), v_phone,
     NULLIF(trim(p_customer_email), ''),
     trim(p_governorate), trim(p_wilayat), trim(p_customer_address), NULLIF(trim(p_map_location), ''),
     NULLIF(trim(p_customer_notes), ''),

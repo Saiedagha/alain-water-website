@@ -2,12 +2,12 @@ export const adminCardClass =
   'bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-sm p-4 sm:p-5 md:p-6'
 
 export const adminInputClass =
-  'w-full border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-alain-blue focus:ring-4 focus:ring-alain-blue/10 font-bold text-slate-800'
+  'w-full border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-admin focus:ring-4 focus:ring-admin/10 font-bold text-slate-800'
 
 export const adminLabelClass = 'block mb-2 text-sm font-black text-slate-700'
 
 export const adminBtnPrimary =
-  'inline-flex items-center justify-center gap-2 bg-alain-blue text-white px-5 py-3 rounded-full font-black hover:bg-alain-blue-dark transition disabled:opacity-60'
+  'inline-flex items-center justify-center gap-2 bg-admin text-white px-5 py-3 rounded-full font-black hover:bg-admin-dark transition disabled:opacity-60'
 
 export const adminBtnSecondary =
   'inline-flex items-center justify-center gap-2 bg-slate-100 text-slate-900 px-5 py-3 rounded-full font-black hover:bg-slate-200 transition'

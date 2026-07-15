@@ -54,7 +54,7 @@ export default function PolicyPage({ slug }) {
   if (!title) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-20 text-center">
-        <Link to="/" className="text-oasis-mid font-black">
+        <Link to="/" className="text-alain-blue font-black">
           ← {t.nav.home}
         </Link>
       </div>
@@ -69,7 +69,7 @@ export default function PolicyPage({ slug }) {
         <div className="rounded-3xl bg-white border border-slate-100 shadow-sm p-8 md:p-10">
           <Link
             to="/"
-            className="text-sm font-bold text-oasis-mid hover:underline mb-6 inline-block"
+            className="text-sm font-bold text-alain-blue hover:underline mb-6 inline-block"
           >
             ← {t.nav.home}
           </Link>

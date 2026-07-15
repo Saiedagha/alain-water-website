@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import {
   REPORT_PERIODS,
@@ -21,10 +21,10 @@ import {
 
 function StatCard({ label, value, sub, accent = 'text-slate-950' }) {
   return (
-    <div className={adminCardClass}>
-      <p className="text-slate-500 font-bold text-sm">{label}</p>
-      <p className={`text-3xl font-black mt-2 ${accent}`}>{value}</p>
-      {sub && <p className="text-alain-blue font-bold text-sm mt-1">{sub}</p>}
+    <div className={`${adminCardClass} min-w-0`}>
+      <p className="text-slate-500 font-bold text-xs sm:text-sm leading-snug">{label}</p>
+      <p className={`text-xl sm:text-3xl font-black mt-2 break-words ${accent}`}>{value}</p>
+      {sub && <p className="text-admin font-bold text-[11px] sm:text-sm mt-1 leading-snug">{sub}</p>}
     </div>
   )
 }
@@ -93,10 +93,10 @@ export default function AdminReports() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <div className={`${adminCardClass} flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4`}>
-        <div>
-          <h2 className="text-2xl font-black text-slate-950">تقارير الموقع</h2>
+        <div className="min-w-0">
+          <h2 className="text-xl sm:text-2xl font-black text-slate-950">تقارير الموقع</h2>
           <p className="text-slate-500 font-bold text-sm mt-1">
             ملخص الطلبات والإيرادات والمنتجات الأكثر طلباً
           </p>
@@ -107,8 +107,8 @@ export default function AdminReports() {
               key={item.id}
               type="button"
               onClick={() => setPeriod(item.id)}
-              className={`px-4 py-2 rounded-xl font-black text-sm ${
-                period === item.id ? 'bg-alain-blue text-white' : 'bg-slate-100 text-slate-700'
+              className={`px-3 sm:px-4 py-2 rounded-xl font-black text-xs sm:text-sm ${
+                period === item.id ? 'bg-admin text-white' : 'bg-slate-100 text-slate-700'
               }`}
             >
               {item.label}
@@ -117,13 +117,13 @@ export default function AdminReports() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
         <StatCard label="إجمالي الطلبات" value={summary.totalOrders} sub={`${summary.paidCount} مدفوع`} />
         <StatCard
           label="إيرادات مدفوعة"
           value={`${formatMoney(summary.totalRevenue)} AED`}
           sub={`محصّل الآن: ${formatMoney(summary.collectedNow)} AED`}
-          accent="text-alain-blue"
+          accent="text-admin"
         />
         <StatCard
           label="متوسط قيمة الطلب"
@@ -137,31 +137,31 @@ export default function AdminReports() {
         />
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
         <div className={adminCardClass}>
-          <h3 className="font-black text-lg mb-4">الطلبات حسب الحالة</h3>
+          <h3 className="font-black text-base sm:text-lg mb-4">الطلبات حسب الحالة</h3>
           <AdminBarChart items={statusChart} />
         </div>
 
         <div className={adminCardClass}>
-          <h3 className="font-black text-lg mb-4">حالة الدفع</h3>
+          <h3 className="font-black text-base sm:text-lg mb-4">حالة الدفع</h3>
           <AdminBarChart items={paymentStatusChart} />
         </div>
 
         <div className={adminCardClass}>
-          <h3 className="font-black text-lg mb-4">الطلبات حسب المحافظة</h3>
+          <h3 className="font-black text-base sm:text-lg mb-4">الطلبات حسب الإمارة</h3>
           <AdminBarChart items={governorateChart} />
         </div>
 
         <div className={adminCardClass}>
-          <h3 className="font-black text-lg mb-4">طرق الدفع</h3>
+          <h3 className="font-black text-base sm:text-lg mb-4">طرق الدفع</h3>
           <AdminBarChart items={paymentMethodChart} />
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
         <div className={adminCardClass}>
-          <h3 className="font-black text-lg mb-4">آخر 7 أيام</h3>
+          <h3 className="font-black text-base sm:text-lg mb-4">آخر 7 أيام</h3>
           <AdminBarChart
             items={dailySeries.map((day) => ({ label: day.label, value: day.orders }))}
             formatValue={(value) => `${value} طلب`}
@@ -169,7 +169,7 @@ export default function AdminReports() {
         </div>
 
         <div className={adminCardClass}>
-          <h3 className="font-black text-lg mb-4">إيرادات آخر 7 أيام (OMR)</h3>
+          <h3 className="font-black text-base sm:text-lg mb-4">إيرادات آخر 7 أيام (AED)</h3>
           <AdminBarChart
             items={dailySeries.map((day) => ({ label: day.label, value: day.revenue }))}
             formatValue={(value) => formatMoney(value)}
@@ -179,10 +179,10 @@ export default function AdminReports() {
 
       <div className={adminCardClass}>
         <div className="flex items-center justify-between gap-3 mb-4 flex-wrap">
-          <h3 className="font-black text-lg">المنتجات الأكثر طلباً</h3>
+          <h3 className="font-black text-base sm:text-lg">المنتجات الأكثر طلباً</h3>
           <button
             type="button"
-            className={adminBtnSecondary}
+            className={`${adminBtnSecondary} w-full sm:w-auto`}
             onClick={() => exportOrdersCsv(filteredOrders)}
           >
             تصدير CSV
@@ -192,8 +192,8 @@ export default function AdminReports() {
         {topProducts.length === 0 ? (
           <p className="font-bold text-slate-500">لا توجد مبيعات في هذه الفترة.</p>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+          <div className="overflow-x-auto -mx-1 px-1">
+            <table className="w-full text-sm min-w-[420px]">
               <thead>
                 <tr className="text-slate-500 border-b">
                   <th className="text-right py-3 font-black">المنتج</th>
@@ -204,9 +204,9 @@ export default function AdminReports() {
               <tbody>
                 {topProducts.map((product) => (
                   <tr key={product.name} className="border-b border-slate-100">
-                    <td className="py-3 font-bold text-slate-800">{product.name}</td>
-                    <td className="py-3 font-black text-alain-blue">{product.quantity}</td>
-                    <td className="py-3 font-black">{formatMoney(product.revenue)} AED</td>
+                    <td className="py-3 font-bold text-slate-800 break-words">{product.name}</td>
+                    <td className="py-3 font-black text-admin whitespace-nowrap">{product.quantity}</td>
+                    <td className="py-3 font-black whitespace-nowrap">{formatMoney(product.revenue)} AED</td>
                   </tr>
                 ))}
               </tbody>
@@ -215,11 +215,15 @@ export default function AdminReports() {
         )}
       </div>
 
-      <div className={`${adminCardClass} flex flex-wrap gap-3`}>
-        <button type="button" className={adminBtnPrimary} onClick={() => exportOrdersCsv(filteredOrders)}>
+      <div className={`${adminCardClass} flex flex-col sm:flex-row sm:flex-wrap gap-3`}>
+        <button
+          type="button"
+          className={`${adminBtnPrimary} w-full sm:w-auto`}
+          onClick={() => exportOrdersCsv(filteredOrders)}
+        >
           تصدير كل الطلبات (CSV)
         </button>
-        <p className="text-sm font-bold text-slate-500 self-center">
+        <p className="text-sm font-bold text-slate-500 sm:self-center">
           {filteredOrders.length} طلب في الفترة المحددة
         </p>
       </div>

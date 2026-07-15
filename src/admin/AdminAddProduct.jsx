@@ -148,8 +148,8 @@ export default function AdminAddProduct() {
 
         <div className="grid md:grid-cols-3 gap-4">
           <div>
-            <label className={adminLabelClass}>السعر (OMR)</label>
-            <input type="number" step="0.001" className={adminInputClass} value={form.price} onChange={(e) => update('price', e.target.value)} required />
+            <label className={adminLabelClass}>السعر (AED)</label>
+            <input type="number" step="0.01" className={adminInputClass} value={form.price} onChange={(e) => update('price', e.target.value)} required />
           </div>
           <div>
             <label className={adminLabelClass}>ترتيب العرض</label>

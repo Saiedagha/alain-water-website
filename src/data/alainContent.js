@@ -146,7 +146,6 @@ export const ALL_PRODUCTS = ALL_PRODUCTS_RAW.map((p) => {
     isInStock: true,
   }
 
-  // Bullets for lime can as shown on original PDP
   if (p.slug === '6x250ml-aa-shrink-lime-sparkling-can' && !product.bullets?.length) {
     product.bullets = [
       'Zesty Lime Twist — Lime flavor adds a refreshing burst of citrus',

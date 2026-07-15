@@ -110,7 +110,7 @@ export default function OmanMapPicker({ open, initialLocation, onConfirm, onClos
   const handlePick = useCallback(
     (location, reason) => {
       if (reason === 'outside') {
-        setError(m.outsideOman)
+        setError(m.outsideUae || m.outsideOman)
         return
       }
       if (reason === 'unsupported') {
@@ -125,7 +125,7 @@ export default function OmanMapPicker({ open, initialLocation, onConfirm, onClos
       setError('')
       setSelected(location)
     },
-    [m.geoDenied, m.geoUnsupported, m.outsideOman]
+    [m.geoDenied, m.geoUnsupported, m.outsideUae, m.outsideOman]
   )
 
   const { containerRef, useMyLocation } = useOmanLeafletMap({
@@ -141,7 +141,7 @@ export default function OmanMapPicker({ open, initialLocation, onConfirm, onClos
     }
 
     if (!isInsideOman(selected.lat, selected.lng)) {
-      setError(m.outsideOman)
+      setError(m.outsideUae || m.outsideOman)
       return
     }
 
@@ -186,7 +186,7 @@ export default function OmanMapPicker({ open, initialLocation, onConfirm, onClos
 
         <div
           ref={containerRef}
-          className="oman-map-picker w-full bg-slate-200 relative z-0 flex-1 min-h-[280px]"
+          className="uae-map-picker w-full bg-slate-200 relative z-0 flex-1 min-h-[280px]"
           style={{ height: 'min(48vh, 380px)' }}
           aria-label={m.title}
         />

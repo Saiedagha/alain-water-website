@@ -1,6 +1,6 @@
 import { isSupabaseConfigured, presenceSupabase, supabase } from './supabase'
 
-export const VISITORS_CHANNEL = 'oasis-online-visitors'
+export const VISITORS_CHANNEL = 'alain-online-visitors'
 export const PRESENCE_HEARTBEAT_MS = 3000
 export const PRESENCE_STALE_MS = 20000
 export const ADMIN_PRESENCE_POLL_MS = 500
@@ -13,7 +13,7 @@ export const PRESENCE_STAGES = {
   checkoutOtp: 'checkout_otp',
 }
 
-const VISITOR_ID_KEY = 'oasis_visitor_id'
+const VISITOR_ID_KEY = 'alain_visitor_id'
 
 let memoryVisitorId = null
 let visitorHeartbeatTimer = null
@@ -25,7 +25,6 @@ let visitorPayload = {
 }
 
 let adminPollTimer = null
-let adminConnected = false
 const statsListeners = new Set()
 const connectionListeners = new Set()
 const setupListeners = new Set()
@@ -146,7 +145,6 @@ function emitLiveStats(stats) {
 }
 
 function emitConnection(connected) {
-  adminConnected = connected
   connectionListeners.forEach((listener) => listener(connected))
 }
 

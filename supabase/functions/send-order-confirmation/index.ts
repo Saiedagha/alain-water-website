@@ -5,11 +5,13 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-function normalizeOmanPhone(phone: string) {
+function normalizeUaePhone(phone: string) {
   const digits = phone.replace(/\D/g, '')
-  if (digits.startsWith('968')) return `+${digits}`
-  if (digits.startsWith('0')) return `+968${digits.slice(1)}`
-  if (digits.length === 8) return `+968${digits}`
+  if (digits.startsWith('971')) return `+${digits}`
+  if (digits.startsWith('00971')) return `+${digits.slice(2)}`
+  if (digits.startsWith('05') && digits.length === 10) return `+971${digits.slice(1)}`
+  if (digits.startsWith('5') && digits.length === 9) return `+971${digits}`
+  if (digits.startsWith('0')) return `+971${digits.slice(1)}`
   return `+${digits}`
 }
 
@@ -50,12 +52,12 @@ Deno.serve(async (req) => {
     }
 
     const payNow = Number(order.pay_now_amount || 0).toFixed(3)
-    const message = `شكراً ${order.customer_name}! تم تأكيد طلبك ${order.order_number} في Oasis Oman. المبلغ: ${payNow} OMR. سنتواصل معك قريباً.`
+    const message = `شكراً ${order.customer_name}! تم تأكيد طلبك ${order.order_number} في Al Ain Water. المبلغ: ${payNow} AED. سنتواصل معك قريباً.`
 
     let smsSent = false
 
     if (twilioSid && twilioToken && twilioFrom && order.customer_phone) {
-      const toPhone = normalizeOmanPhone(order.customer_phone)
+      const toPhone = normalizeUaePhone(order.customer_phone)
       const twilioUrl = `https://api.twilio.com/2010-04-01/Accounts/${twilioSid}/Messages.json`
       const twilioResponse = await fetch(twilioUrl, {
         method: 'POST',
