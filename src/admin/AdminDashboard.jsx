@@ -14,17 +14,11 @@ import {
 export default function AdminDashboard() {
   const [loading, setLoading] = useState(true)
   const [stats, setStats] = useState({
-    totalProducts: 0,
-    visibleProducts: 0,
     totalOrders: 0,
     newOrders: 0,
-    deliveredOrders: 0,
-    pendingMessages: 0,
     pendingPayments: 0,
-    totalRevenue: 0,
   })
   const [recentOrders, setRecentOrders] = useState([])
-  const [recentProducts, setRecentProducts] = useState([])
   const [orders, setOrders] = useState([])
   const [loadError, setLoadError] = useState('')
 
@@ -36,36 +30,23 @@ export default function AdminDashboard() {
       setLoadError('')
 
       try {
-        const [productsRes, ordersRes, messagesRes, paymentsRes] = await Promise.all([
-          supabase.from('products').select('*').order('sort_order'),
+        const [ordersRes, paymentsRes] = await Promise.all([
           supabase.from('orders').select('*').order('created_at', { ascending: false }),
-          supabase.from('contact_messages').select('id', { count: 'exact', head: true }).eq('is_read', false),
           supabase.from('orders').select('id', { count: 'exact', head: true }).eq('manual_payment_status', 'pending'),
         ])
 
         if (!active) return
 
-        const products = productsRes.data || []
         const allOrders = ordersRes.data || []
-
-        const paidRevenue = allOrders
-          .filter((o) => o.payment_status === 'paid')
-          .reduce((sum, o) => sum + Number(o.total_amount || 0), 0)
 
         setOrders(allOrders)
         setStats({
-          totalProducts: products.length,
-          visibleProducts: products.filter((p) => p.is_visible).length,
           totalOrders: allOrders.length,
           newOrders: allOrders.filter((o) => o.status === 'new').length,
-          deliveredOrders: allOrders.filter((o) => o.status === 'delivered').length,
-          pendingMessages: messagesRes.count || 0,
           pendingPayments: paymentsRes.count || 0,
-          totalRevenue: paidRevenue,
         })
 
         setRecentOrders(allOrders.slice(0, 5))
-        setRecentProducts(products.slice(0, 5))
       } catch (error) {
         if (!active) return
         console.error(error)
@@ -109,17 +90,8 @@ export default function AdminDashboard() {
   }
 
   const cards = [
-    { label: 'المنتجات', value: stats.totalProducts, sub: `${stats.visibleProducts} ظاهر`, link: '/admin/products' },
     { label: 'الطلبات', value: stats.totalOrders, sub: `${stats.newOrders} جديد`, link: '/admin/orders' },
     { label: 'مدفوعات معلّقة', value: stats.pendingPayments, sub: 'بانتظار المراجعة', link: '/admin/payments' },
-    { label: 'رسائل جديدة', value: stats.pendingMessages, sub: 'غير مقروءة', link: '/admin/contact-messages' },
-    {
-      label: 'إيرادات مدفوعة',
-      value: `${formatMoney(stats.totalRevenue)} AED`,
-      sub: `${stats.deliveredOrders} تم التسليم`,
-      link: '/admin/reports',
-      fullOnMobile: true,
-    },
   ]
 
   return (
@@ -148,12 +120,6 @@ export default function AdminDashboard() {
               مدفوعات معلّقة ({stats.pendingPayments})
             </Link>
           )}
-          <Link
-            to="/admin/products/add"
-            className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-2xl bg-[#e8f6ee] text-[#166b3a] px-5 py-3.5 font-black text-sm hover:bg-emerald-100 transition"
-          >
-            إضافة منتج
-          </Link>
           <a
             href="/"
             target="_blank"
@@ -208,7 +174,7 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
+      <div className="grid gap-4 sm:gap-6">
         <div className={adminCardClass}>
           <div className="flex items-center justify-between gap-3 mb-4">
             <h2 className="text-base sm:text-xl font-black text-slate-950">آخر الطلبات</h2>
@@ -233,37 +199,6 @@ export default function AdminDashboard() {
                     <p className="font-black text-admin">{formatMoney(order.total_amount)} AED</p>
                     <p className="text-xs text-slate-400 font-bold">{formatDate(order.created_at)}</p>
                   </div>
-                </Link>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <div className={adminCardClass}>
-          <div className="flex items-center justify-between gap-3 mb-4">
-            <h2 className="text-base sm:text-xl font-black text-slate-950">المنتجات</h2>
-            <Link to="/admin/products/add" className="text-admin font-black text-sm">إضافة منتج</Link>
-          </div>
-          {recentProducts.length === 0 ? (
-            <p className="text-slate-500 font-bold">لا توجد منتجات.</p>
-          ) : (
-            <div className="space-y-3">
-              {recentProducts.map((product) => (
-                <Link
-                  key={product.id}
-                  to={`/admin/products/edit/${product.id}`}
-                  className="flex items-center gap-3 p-3 rounded-2xl bg-slate-50 hover:bg-admin-soft transition"
-                >
-                  {product.image_url && (
-                    <img src={product.image_url} alt="" className="w-12 h-12 rounded-xl object-cover" />
-                  )}
-                  <div className="flex-1 min-w-0">
-                    <p className="font-black text-slate-900 truncate">{product.name}</p>
-                    <p className="text-sm text-admin font-bold">{formatMoney(product.price)} AED</p>
-                  </div>
-                  <span className={`text-xs font-black px-2 py-1 rounded-lg ${product.is_visible ? 'bg-green-100 text-green-700' : 'bg-slate-200 text-slate-600'}`}>
-                    {product.is_visible ? 'ظاهر' : 'مخفي'}
-                  </span>
                 </Link>
               ))}
             </div>

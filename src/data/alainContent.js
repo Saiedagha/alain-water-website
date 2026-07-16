@@ -104,6 +104,7 @@ export const COLLECTION_META = {
     id: 'subscriptions',
     heading: { en: 'SUBSCRIPTIONS', ar: 'الاشتراكات' },
     banner: 'blue',
+    image: '/assets/s.jpeg',
   },
   'special-offers': {
     id: 'special-offers',

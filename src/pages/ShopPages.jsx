@@ -52,6 +52,7 @@ function CollectionBanner({ slug, title }) {
 
   const heading = meta.heading?.[lang] || meta.heading?.en || title
   const sub = meta.sub?.[lang] || meta.sub?.en
+  const image = meta.image
 
   if (meta.banner === 'offers') {
     return (
@@ -83,10 +84,30 @@ function CollectionBanner({ slug, title }) {
   }
 
   return (
-    <div className="relative mb-8 overflow-hidden bg-gradient-to-r from-[#d7ebf7] to-[#eef6fb]">
-      <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-10 sm:px-6 md:py-14">
-        {sub && <p className="text-sm font-bold uppercase tracking-wide text-[#0b3d66]">{sub}</p>}
-        <h2 className="text-3xl font-black uppercase text-[#0b3d66] md:text-5xl">{heading}</h2>
+    <div className="relative mb-8 overflow-hidden rounded-b-[28px] bg-gradient-to-r from-[#0a5ea6] via-[#0d7bc3] to-[#6fc0f2]">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.28),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(255,255,255,0.16),transparent_32%)]" />
+      <div className="relative mx-auto grid max-w-7xl items-center gap-6 px-4 py-10 sm:px-6 md:grid-cols-[1.1fr_0.9fr] md:py-14">
+        <div className="flex flex-col gap-3 text-white">
+          {sub && <p className="text-sm font-black uppercase tracking-[0.24em] text-white/90">{sub}</p>}
+          <h2 className="text-3xl font-black uppercase leading-tight text-white md:text-5xl">{heading}</h2>
+          <p className="max-w-xl text-sm font-semibold text-white/90 md:text-base">
+            {lang === 'ar'
+              ? 'خدمة توصيل منتظمة ومعقّدة حسب احتياجك في المنزل أو المكتب.'
+              : 'Flexible refill delivery for home and office convenience.'}
+          </p>
+        </div>
+
+        {image && (
+          <div className="relative">
+            <div className="absolute -start-5 -top-5 h-16 w-16 rounded-full bg-white/20 blur-sm" />
+            <div className="absolute -end-3 bottom-0 h-20 w-20 rounded-full bg-[#0b2e4e]/30 blur-md" />
+            <img
+              src={image}
+              alt={heading}
+              className="relative h-56 w-full rounded-[24px] border border-white/25 object-cover object-center shadow-2xl sm:h-64 md:h-72"
+            />
+          </div>
+        )}
       </div>
     </div>
   )
