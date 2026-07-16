@@ -66,6 +66,10 @@ html.mobile-menu-open .wa-page-float {
   display: none;
 }
 
+.hero-track {
+  will-change: transform;
+}
+
 /* Hide native scrollbar on mobile carousels */
 .snap-x::-webkit-scrollbar {
   display: none;
@@ -75,8 +79,6 @@ html.mobile-menu-open .wa-page-float {
   flex: 0 0 100%;
   width: 100%;
   max-width: 100%;
-  scroll-snap-align: center;
-  scroll-snap-stop: always;
 }
 
 @keyframes fade-in {

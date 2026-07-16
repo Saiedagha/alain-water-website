@@ -6,7 +6,7 @@ export default function BrandStory() {
   const body = BRAND_STORY.body[lang] || BRAND_STORY.body.en
 
   return (
-    <section className="bg-white py-12 md:py-20">
+    <section className="bg-[#f8fbfe] py-12 md:py-20">
       <div className="mx-auto max-w-4xl px-4 text-center sm:px-6">
         {lang === 'ar' ? (
           <h3 className="relative inline-block text-3xl font-black leading-tight text-slate-900 md:text-5xl">
@@ -31,11 +31,11 @@ export default function BrandStory() {
         <p className="mx-auto mt-6 max-w-3xl text-base leading-8 text-slate-600 md:text-lg">{body}</p>
       </div>
 
-      <div className="mx-auto mt-10 max-w-5xl overflow-hidden sm:px-6">
+      <div className="mx-auto mt-10 max-w-5xl overflow-hidden px-4 sm:px-6">
         <img
           src={BRAND_STORY.videoThumb}
           alt={BRAND_STORY.title.en}
-          className="h-56 w-full object-cover sm:h-72 md:h-96"
+          className="h-56 w-full rounded-[24px] object-cover shadow-sm sm:h-72 md:h-96"
           loading="lazy"
         />
       </div>
