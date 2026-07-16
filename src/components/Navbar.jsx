@@ -183,7 +183,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-white border-b border-slate-100">
+      <header className="sticky top-0 z-50 border-b border-slate-100 bg-white/95 backdrop-blur-sm">
         {/* —— Mobile header: menu | logo center | icons —— */}
         <div className="lg:hidden relative flex items-center justify-between h-[58px] px-4">
           <button
@@ -206,13 +206,13 @@ export default function Navbar() {
 
         {/* —— Desktop header —— */}
         <div className="hidden lg:block">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="flex items-center justify-between h-[72px] gap-4">
+          <div className="mx-auto max-w-[1320px] px-5 xl:px-8">
+            <div className="flex h-[74px] items-center justify-between gap-5">
               <Link to="/" className="shrink-0">
-                <img src={LOGO_URL} alt="Al Ain Water" className="h-12 w-auto object-contain" />
+                <img src={LOGO_URL} alt="Al Ain Water" className="h-[44px] w-auto object-contain" />
               </Link>
 
-              <nav className="flex items-center gap-8 text-[15px] font-medium text-slate-800">
+              <nav className="flex items-center gap-8 text-[14px] font-semibold tracking-[0.02em] text-slate-800">
                 <div className="relative" ref={productsRef}>
                   <button
                     type="button"
@@ -255,12 +255,12 @@ export default function Navbar() {
                 </Link>
               </nav>
 
-              <div className="flex items-center gap-4 text-slate-700">
+              <div className="flex items-center gap-5 text-slate-700">
                 <UtilityIcons count={count} onUser={goLogin} onSearch={() => setSearchOpen((o) => !o)} />
                 <button
                   type="button"
                   onClick={toggleLang}
-                  className="inline-flex items-center gap-1 text-sm font-medium hover:text-alain-blue"
+                  className="inline-flex items-center gap-1 text-sm font-semibold hover:text-alain-blue"
                 >
                   {ui.langSwitch}
                   <span className="text-[10px] opacity-60">▾</span>
