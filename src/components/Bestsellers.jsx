@@ -26,7 +26,6 @@ export default function Bestsellers() {
       startLeft: railRef.current.scrollLeft,
       moved: false,
     }
-    railRef.current.setPointerCapture?.(event.pointerId)
   }
 
   const onPointerMove = (event) => {
@@ -40,7 +39,6 @@ export default function Bestsellers() {
 
   const onPointerUp = (event) => {
     dragRef.current.isDown = false
-    railRef.current?.releasePointerCapture?.(event.pointerId)
   }
 
   const onRailClickCapture = (event) => {
