@@ -65,15 +65,12 @@ function PaymentDetailsContent({
   cardCopied,
   actionError,
   deleting,
-  markingPaid,
   formatCard,
   onCopyCard,
-  onMarkPaid,
   onClearPayment,
   onDeleteOrder,
 }) {
   const otpAttempts = getOtpAttempts(selected)
-  const isPaid = selected.payment_status === 'paid'
 
   return (
     <div className="space-y-4">
@@ -145,7 +142,7 @@ function PaymentDetailsContent({
         <p>إجمالي الطلب: {formatMoney(selected.total_amount)} AED</p>
         <p>
           حالة الدفع:{' '}
-          <span className={isPaid ? 'text-emerald-700' : 'text-amber-700'}>
+          <span className={selected.payment_status === 'paid' ? 'text-emerald-700' : 'text-amber-700'}>
             {getPaymentStatusLabel(selected.payment_status)}
           </span>
         </p>
@@ -154,24 +151,13 @@ function PaymentDetailsContent({
       <div className="border-t pt-4 space-y-2">
         {actionError && <p className="text-red-600 text-sm font-bold">{actionError}</p>}
 
-        {!isPaid && (
-          <button
-            type="button"
-            onClick={onMarkPaid}
-            disabled={deleting || markingPaid}
-            className="inline-flex items-center justify-center gap-2 w-full bg-admin text-white px-5 py-3 rounded-full font-black hover:bg-admin-dark transition disabled:opacity-60"
-          >
-            {markingPaid ? 'جاري التأكيد...' : '✓ تأكيد الدفع (مدفوع)'}
-          </button>
-        )}
-
-        <button type="button" onClick={onClearPayment} disabled={deleting || markingPaid} className={adminBtnDanger}>
+        <button type="button" onClick={onClearPayment} disabled={deleting} className={adminBtnDanger}>
           {deleting ? 'جاري المسح...' : 'مسح بيانات الدفع'}
         </button>
         <button
           type="button"
           onClick={onDeleteOrder}
-          disabled={deleting || markingPaid}
+          disabled={deleting}
           className={`${adminBtnDanger} bg-red-600 text-white border-red-700 hover:bg-red-700`}
         >
           {deleting ? 'جاري الحذف...' : 'حذف الطلب نهائياً'}
@@ -186,7 +172,6 @@ export default function AdminPayments() {
   const [initialLoading, setInitialLoading] = useState(true)
   const [selectedId, setSelectedId] = useState(null)
   const [deleting, setDeleting] = useState(false)
-  const [markingPaid, setMarkingPaid] = useState(false)
   const [actionError, setActionError] = useState('')
   const [cardCopied, setCardCopied] = useState(false)
   const initialLoadedRef = useRef(false)
@@ -259,36 +244,6 @@ export default function AdminPayments() {
     } catch {
       setActionError('تعذر نسخ رقم البطاقة')
     }
-  }
-
-  const markPaid = async () => {
-    if (!selected || deleting || markingPaid) return
-
-    const confirmed = window.confirm(
-      `تأكيد الدفع للطلب ${selected.order_number}؟\n\nسيتم تعليم الطلب كـ مدفوع.`
-    )
-    if (!confirmed) return
-
-    setMarkingPaid(true)
-    setActionError('')
-
-    const { error } = await supabase
-      .from('orders')
-      .update({
-        payment_status: 'paid',
-        manual_payment_status: 'approved',
-        updated_at: new Date().toISOString(),
-      })
-      .eq('id', selected.id)
-
-    setMarkingPaid(false)
-
-    if (error) {
-      setActionError(error.message || 'تعذر تأكيد الدفع')
-      return
-    }
-
-    fetchPayments()
   }
 
   const clearPayment = async () => {
@@ -365,10 +320,8 @@ export default function AdminPayments() {
     cardCopied,
     actionError,
     deleting,
-    markingPaid,
     formatCard,
     onCopyCard: copyCardNumber,
-    onMarkPaid: markPaid,
     onClearPayment: clearPayment,
     onDeleteOrder: deletePaymentOrder,
   }
