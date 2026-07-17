@@ -58,12 +58,17 @@ export default function PaymentVerificationFailedPage() {
 
           <button
             type="button"
-            onClick={() =>
-              navigate('/checkout', {
-                replace: true,
-                state: order ? { restoreOrder: order } : undefined,
-              })
-            }
+            onClick={() => {
+              if (order) {
+                navigate('/checkout/confirm', {
+                  replace: true,
+                  state: { order },
+                })
+                return
+              }
+
+              navigate('/checkout', { replace: true })
+            }}
             className="w-full py-3.5 rounded-xl bg-[#e53935] hover:bg-[#c62828] text-white font-black text-base transition flex items-center justify-center gap-2"
           >
             {f.backCheckout}
