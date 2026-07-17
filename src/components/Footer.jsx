@@ -77,48 +77,6 @@ const usefulLinks = [
   { to: '/terms', label: 'Terms of Service' },
 ]
 
-function StoreBadge({ type }) {
-  if (type === 'google') {
-    return (
-      <a
-        href="https://play.google.com/store"
-        target="_blank"
-        rel="noreferrer"
-        className="flex h-[72px] w-full max-w-[360px] items-center rounded-[12px] border border-white/80 bg-black px-4 text-white shadow-[0_1px_0_rgba(255,255,255,0.08)] md:h-[46px] md:w-[134px] md:max-w-none md:rounded-[4px] md:px-3"
-      >
-        <svg viewBox="0 0 24 24" className="mr-3 h-8 w-8 md:mr-2 md:h-6 md:w-6" aria-hidden>
-          <path d="M3 2.8 13.7 13.5 3 24V2.8Z" fill="#34A853" />
-          <path d="M3 2.8 13.7 13.5 10.2 17 3 2.8Z" fill="#FBBC05" />
-          <path d="M3 24 10.2 17l3.5 3.5L3 24Z" fill="#EA4335" />
-          <path d="M10.2 17 13.7 13.5 21 17.9c.5.3.5 1 0 1.3L13.7 24l-3.5-7Z" fill="#4285F4" />
-        </svg>
-        <span className="leading-none">
-          <span className="block text-[13px] font-medium text-white/95 md:text-[10px]">GET IT ON</span>
-          <span className="block text-[28px] font-medium -mt-0.5 md:text-[18px]">Google Play</span>
-        </span>
-      </a>
-    )
-  }
-
-  return (
-    <a
-      href="https://apps.apple.com"
-      target="_blank"
-      rel="noreferrer"
-      className="flex h-[72px] w-full max-w-[360px] items-center rounded-[12px] border border-white/80 bg-black px-4 text-white shadow-[0_1px_0_rgba(255,255,255,0.08)] md:h-[46px] md:w-[134px] md:max-w-none md:rounded-[4px] md:px-3"
-    >
-      <svg viewBox="0 0 24 24" className="mr-3 h-7 w-7 md:mr-2 md:h-5 md:w-5" fill="currentColor" aria-hidden>
-        <path d="M16.8 12.6c0-2.2 1.8-3.2 1.9-3.3-1-1.4-2.6-1.6-3.2-1.6-1.3-.1-2.5.8-3.2.8-.7 0-1.7-.8-2.8-.8-1.5 0-2.9.9-3.7 2.2-1.6 2.8-.4 6.9 1.1 9.1.8 1.1 1.8 2.4 3.1 2.3 1.1 0 1.5-.7 2.9-.7s1.8.7 3.1.7c1.3 0 2.1-1.1 2.9-2.3.9-1.3 1.2-2.6 1.2-2.7-.1 0-2.3-.9-2.3-3.7Z" />
-        <path d="M14.7 4.9c.6-.8 1-1.9.9-3.1-.9.1-2 .6-2.7 1.4-.6.7-1.1 1.8-.9 2.9 1 .1 2-.5 2.7-1.2Z" />
-      </svg>
-      <span className="leading-none">
-        <span className="block text-[13px] font-medium text-white/95 md:text-[10px]">Download on the</span>
-        <span className="block text-[28px] font-medium -mt-0.5 md:text-[17px]">App Store</span>
-      </span>
-    </a>
-  )
-}
-
 function PaymentChip({ children, className = '' }) {
   return (
     <span className={`inline-flex h-7 items-center justify-center rounded-sm bg-white px-3 text-[13px] font-semibold leading-none ${className}`}>
@@ -193,11 +151,8 @@ function DesktopFooter() {
         </ul>
       </div>
 
-      <div className="footer-store-badges md:pt-1 lg:pt-0.5">
-        <StoreBadge type="google" />
-        <StoreBadge type="apple" />
-
-        <div className="mt-1 flex items-center gap-1.5 rounded-sm bg-transparent">
+      <div className="md:pt-1 lg:pt-0.5">
+        <div className="flex items-center gap-1.5 rounded-sm bg-transparent md:justify-end">
           <PaymentChip className="min-w-[48px] px-2 text-[12px] tracking-[-0.02em] text-slate-900">
             <span className="mr-0.5 text-[11px]"></span>Pay
           </PaymentChip>
@@ -302,11 +257,7 @@ function MobileFooter() {
       </div>
 
       <div className="pt-6">
-        <StoreBadge type="google" />
-        <div className="mt-4">
-          <StoreBadge type="apple" />
-        </div>
-        <div className="mt-4 flex items-center gap-1.5 rounded-sm bg-transparent">
+        <div className="flex items-center gap-1.5 rounded-sm bg-transparent">
           <PaymentChip className="min-w-[48px] px-2 text-[12px] tracking-[-0.02em] text-slate-900">
             <span className="mr-0.5 text-[11px]"></span>Pay
           </PaymentChip>

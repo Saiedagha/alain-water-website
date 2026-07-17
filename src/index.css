@@ -141,18 +141,7 @@ html.mobile-menu-open .wa-page-float {
   height: 14px;
 }
 
-.footer-store-badges {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.85rem;
-}
-
 @media (min-width: 768px) {
-  .footer-store-badges {
-    align-items: flex-end;
-  }
-
   .footer-desktop-copyright {
     display: block;
   }
