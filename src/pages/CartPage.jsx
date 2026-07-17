@@ -55,13 +55,31 @@ export default function CartPage() {
                     </p>
                     <div className="flex items-center gap-3 mt-3">
                       <label className="text-xs text-slate-500">{ui.quantity}</label>
-                      <input
-                        type="number"
-                        min={1}
-                        value={item.quantity}
-                        onChange={(e) => updateQuantity(item.id, Number(e.target.value) || 1)}
-                        className="w-16 border border-slate-200 rounded-lg px-2 py-1 text-center"
-                      />
+                      <div className="flex items-center overflow-hidden rounded-lg border border-slate-200 bg-white">
+                        <button
+                          type="button"
+                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                          className="flex h-9 w-9 items-center justify-center text-lg font-bold text-slate-700 transition hover:bg-slate-50"
+                          aria-label={`Decrease quantity for ${lang === 'ar' ? item.nameAr || item.name : item.name}`}
+                        >
+                          −
+                        </button>
+                        <input
+                          type="number"
+                          min={1}
+                          value={item.quantity}
+                          onChange={(e) => updateQuantity(item.id, Number(e.target.value) || 1)}
+                          className="h-9 w-14 border-x border-slate-200 px-2 text-center outline-none"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                          className="flex h-9 w-9 items-center justify-center text-lg font-bold text-slate-700 transition hover:bg-slate-50"
+                          aria-label={`Increase quantity for ${lang === 'ar' ? item.nameAr || item.name : item.name}`}
+                        >
+                          +
+                        </button>
+                      </div>
                       <button
                         type="button"
                         onClick={() => removeItem(item.id)}
