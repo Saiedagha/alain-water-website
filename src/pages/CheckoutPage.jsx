@@ -66,7 +66,7 @@ export default function CheckoutPage() {
 
   const c = t.checkout
   const wilayats = form.governorate ? WILAYATS[form.governorate] || [] : []
-  const depositAmount = Number(settings.deposit_amount || 1)
+  const depositAmount = Number(settings.deposit_amount ?? 5)
   const payNow = calculatePayNowAmount(total, paymentMethod, depositAmount)
 
   useLayoutEffect(() => resetPageScrollDelayed(), [])
@@ -423,8 +423,12 @@ export default function CheckoutPage() {
                     className="mt-1"
                   />
                   <div>
-                    <p className="font-black text-slate-900">{c.payDeposit}</p>
-                    <p className="text-sm text-slate-500 mt-1 leading-6">{c.payDepositHint}</p>
+                    <p className="font-black text-slate-900">
+                      {c.payDeposit.replace('{amount}', depositAmount.toFixed(2))}
+                    </p>
+                    <p className="text-sm text-slate-500 mt-1 leading-6">
+                      {c.payDepositHint.replace('{amount}', depositAmount.toFixed(2))}
+                    </p>
                   </div>
                 </div>
               </label>

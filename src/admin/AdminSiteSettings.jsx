@@ -116,7 +116,7 @@ export default function AdminSiteSettings() {
               type="number"
               step="0.01"
               className={adminInputClass}
-              value={form.deposit_amount ?? 1}
+              value={form.deposit_amount ?? 5}
               onChange={(e) => update('deposit_amount', e.target.value)}
             />
           </div>

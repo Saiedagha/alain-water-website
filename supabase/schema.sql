@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS site_settings (
   address_ar TEXT DEFAULT 'مسقط، سلطنة عمان',
   hours TEXT DEFAULT 'Saturday – Thursday: 8:00 AM – 10:00 PM',
   hours_ar TEXT DEFAULT 'السبت – الخميس: 8:00 صباحاً – 10:00 مساءً',
-  deposit_amount NUMERIC(12, 3) NOT NULL DEFAULT 1,
+  deposit_amount NUMERIC(12, 3) NOT NULL DEFAULT 5,
   delivery_free BOOLEAN NOT NULL DEFAULT true,
   footer_description TEXT,
   footer_description_ar TEXT,

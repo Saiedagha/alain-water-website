@@ -11,6 +11,7 @@ UPDATE site_settings SET
   address_ar = 'برج سكاي، الطابق ١٧، جزيرة الريم، أبوظبي، الإمارات',
   hours = 'Sat - Thu: 9:00 - 21:00',
   hours_ar = 'السبت - الخميس: ٩:٠٠ - ٢١:٠٠',
+  deposit_amount = 5,
   social_instagram = 'https://www.instagram.com/alainwaterofficial',
   social_facebook = 'https://www.facebook.com/alainwater',
   logo_url = 'https://alainwater.com/cdn/shop/files/Logo_Small_8efe5185-9bae-4d27-9986-a7c64b62bf21.png?v=1712162622',

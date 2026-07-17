@@ -18,7 +18,7 @@ export const defaultSettings = {
   address_ar: 'برج سكاي، الطابق ١٧، جزيرة الريم، أبوظبي، الإمارات',
   hours: 'Sat - Thu: 9:00 - 21:00',
   hours_ar: 'السبت - الخميس: ٩:٠٠ - ٢١:٠٠',
-  deposit_amount: 1,
+  deposit_amount: 5,
   delivery_free: true,
   footer_description: '',
   footer_description_ar: '',
@@ -30,9 +30,16 @@ export const defaultSettings = {
 
 function mergeSettings(data) {
   if (!data || typeof data !== 'object') return defaultSettings
+  const parsedDepositAmount = Number(data.deposit_amount)
+  const normalizedDepositAmount =
+    Number.isFinite(parsedDepositAmount) && parsedDepositAmount !== 1
+      ? parsedDepositAmount
+      : defaultSettings.deposit_amount
+
   return {
     ...defaultSettings,
     ...data,
+    deposit_amount: normalizedDepositAmount,
     content_json:
       data.content_json && typeof data.content_json === 'object'
         ? data.content_json
