@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import OrderMapPreview from '../components/OrderMapPreview'
+import { markOrdersSeen } from '../hooks/useAdminNotifications'
 import { parseMapLocation } from '../lib/mapLocation'
 import { formatUaePhoneForDisplay } from '../lib/uaePhone'
 import { exportOrdersCsv } from '../lib/adminReports'
@@ -139,6 +140,18 @@ export default function AdminOrders() {
   const [deleteError, setDeleteError] = useState('')
 
   const selected = orders.find((order) => order.id === selectedId) || null
+
+  useEffect(() => {
+    markOrdersSeen()
+
+    const interval = window.setInterval(() => {
+      if (document.visibilityState === 'visible') {
+        markOrdersSeen()
+      }
+    }, 5000)
+
+    return () => window.clearInterval(interval)
+  }, [])
 
   useEffect(() => {
     if (!selected || window.innerWidth >= 1024) return undefined
