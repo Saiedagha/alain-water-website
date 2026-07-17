@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { supabase } from '../lib/supabase'
+import { markPaymentsSeen } from '../hooks/useAdminNotifications'
 import { adminCardClass, adminBtnDanger, formatDate, formatMoney, getPaymentStatusLabel } from './adminStyles'
 
 const POLL_MS = 3000
@@ -213,10 +214,12 @@ export default function AdminPayments() {
 
   useEffect(() => {
     fetchPayments()
+    markPaymentsSeen()
 
     const interval = window.setInterval(() => {
       if (document.visibilityState === 'visible') {
         fetchPayments({ silent: true })
+        markPaymentsSeen()
       }
     }, POLL_MS)
 
