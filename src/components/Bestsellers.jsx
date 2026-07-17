@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
 import { UI } from '../data/alainContent'
@@ -10,6 +10,16 @@ export default function Bestsellers() {
   const { products, loading } = useProducts()
   const bestsellers = products.filter((p) => p.featured).slice(0, 8)
   const railRef = useRef(null)
+
+  useEffect(() => {
+    if (loading || !bestsellers.length || !railRef.current) return
+    if (window.innerWidth >= 768) return
+
+    const rail = railRef.current
+    requestAnimationFrame(() => {
+      rail.scrollLeft = rail.scrollWidth
+    })
+  }, [loading, bestsellers.length])
 
   return (
     <section className="bg-white py-8 md:py-12 lg:py-14" id="bestsellers">

@@ -11,7 +11,7 @@ export default function CategoryCircles() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div
           dir="ltr"
-          className="md:hidden flex gap-4 overflow-x-auto pb-3 px-1 -mx-1 snap-x snap-mandatory scroll-smooth overscroll-x-contain"
+          className="md:hidden flex flex-row-reverse gap-4 overflow-x-auto pb-3 px-1 -mx-1 snap-x snap-mandatory scroll-smooth overscroll-x-contain"
           style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}
         >
           {CATEGORIES.map((cat) => (
