@@ -80,7 +80,7 @@ export default function Bestsellers() {
               onPointerUp={onPointerUp}
               onPointerCancel={onPointerUp}
               onClickCapture={onRailClickCapture}
-              className="flex gap-4 overflow-x-auto pb-3 snap-x snap-mandatory md:gap-6"
+              className="flex gap-4 overflow-x-auto pb-4 px-1 -mx-1 snap-x snap-mandatory scroll-smooth overscroll-x-contain md:gap-6"
               style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', touchAction: 'pan-y' }}
             >
               {bestsellers
@@ -89,7 +89,7 @@ export default function Bestsellers() {
                   <Link
                     key={product.id}
                     to={`/products/${product.slug}`}
-                    className="group block shrink-0 snap-start w-[82%] sm:w-[58%] md:w-[34%] lg:w-[24%] xl:w-[22%]"
+                    className="group block shrink-0 snap-center w-[82%] sm:w-[58%] md:w-[34%] lg:w-[24%] xl:w-[22%] first:ms-1 last:me-1"
                   >
                     <div className="overflow-hidden rounded-[14px] border border-slate-100 bg-white shadow-[0_1px_0_rgba(15,23,42,0.03)]">
                       <div className="flex aspect-square items-center justify-center bg-white p-5 md:p-6">

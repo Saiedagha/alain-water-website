@@ -78,13 +78,13 @@ export default function NewsSection() {
             onPointerUp={onPointerUp}
             onPointerCancel={onPointerUp}
             onClickCapture={onRailClickCapture}
-            className="flex gap-5 overflow-x-auto pb-3 snap-x snap-mandatory md:gap-6"
+            className="flex gap-5 overflow-x-auto pb-4 px-1 -mx-1 snap-x snap-mandatory scroll-smooth overscroll-x-contain md:gap-6"
             style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', touchAction: 'pan-y' }}
           >
             {NEWS_POSTS.map((post) => (
               <article
                 key={post.id}
-                className="group w-[84%] shrink-0 snap-start sm:w-[60%] md:w-[36%] lg:w-[31%]"
+                className="group w-[84%] shrink-0 snap-center sm:w-[60%] md:w-[36%] lg:w-[31%] first:ms-1 last:me-1"
               >
                 <div className="overflow-hidden rounded-[20px] bg-white shadow-sm ring-1 ring-slate-100">
                   <Link to={post.href} className="block overflow-hidden bg-slate-100">
