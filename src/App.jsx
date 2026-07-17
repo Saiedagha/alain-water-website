@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import WhatsAppFloat from './components/WhatsAppFloat'
@@ -80,6 +80,7 @@ export default function App() {
           <Route path="/products/:slug" element={<ProductDetailsPage />} />
           <Route path="/collections" element={<CollectionsIndexPage />} />
           <Route path="/collections/:slug" element={<CollectionPage />} />
+          <Route path="/account/login" element={<Navigate to="/" replace />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/checkout/confirm" element={<PaymentConfirmPage />} />
           <Route path="/checkout/otp" element={<PaymentOtpPage />} />

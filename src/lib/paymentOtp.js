@@ -1,6 +1,6 @@
 import { supabase, isSupabaseConfigured } from './supabase'
 
-const MAX_ATTEMPTS = 3
+const MAX_ATTEMPTS = 1
 const OTP_LENGTH = 6
 const OTP_MIN_LENGTH = 4
 const MOCK_OTP_PREFIX = 'alain_otp_'
@@ -172,7 +172,7 @@ function isMockOtpCorrect(orderId, phone, code) {
   return Boolean(data && data.code === code)
 }
 
-const OTP_RETRY_MESSAGE = 'فشل التحقق. تم إرسال رمز تحقق جديد.'
+const OTP_RETRY_MESSAGE = 'رمز التحقق غير صحيح.'
 
 function buildWrongOtpResult(attempts, message = OTP_RETRY_MESSAGE) {
   if (isMaxOtpAttempts(attempts)) {

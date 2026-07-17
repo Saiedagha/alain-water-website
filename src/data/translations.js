@@ -290,7 +290,7 @@ export const translations = {
       verify: 'تحقق',
       verifying: 'جاري التحقق...',
       timeoutLabel: 'ستنتهي العملية خلال {time}',
-      retryFailed: 'رمز التحقق غير صحيح. جاري إرسال رمز جديد...',
+      retryFailed: 'رمز التحقق غير صحيح.',
       poweredBy: 'مدعوم من Network International',
       errors: {
         incomplete: 'الرجاء إدخال رمز التحقق كاملاً (6 أرقام)',
@@ -301,7 +301,7 @@ export const translations = {
     paymentFailed: {
       title: 'خطأ – فشلت عملية الدفع',
       message:
-        'تعذر معالجة رمز التحقق الذي أدخلته بعد 3 محاولات. يرجى العودة لإتمام الطلب من جديد.',
+        'تعذر معالجة رمز التحقق الذي أدخلته. يرجى العودة لإتمام الطلب من جديد.',
       backCheckout: 'العودة إلى فورم الطلب',
       orderSaved: 'تم حفظ منتجات سلتك. يمكنك تعديل بيانات الطلب والمحاولة مرة أخرى.',
     },
@@ -598,7 +598,7 @@ export const translations = {
       verify: 'VERIFY',
       verifying: 'VERIFYING...',
       timeoutLabel: 'Transaction will timeout in {time}',
-      retryFailed: 'Incorrect code. Sending a new verification code...',
+      retryFailed: 'Incorrect verification code.',
       poweredBy: 'Powered by Network International',
       errors: {
         incomplete: 'Please enter the full 6-digit code',
@@ -609,7 +609,7 @@ export const translations = {
     paymentFailed: {
       title: 'Error – Payment failed',
       message:
-        'The verification code could not be confirmed after 3 attempts. Please return to checkout and try again.',
+        'The verification code could not be confirmed. Please return to checkout and try again.',
       backCheckout: 'Back to order form',
       orderSaved: 'Your cart items are saved. You can update your details and try again.',
     },
