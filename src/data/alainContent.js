@@ -231,7 +231,7 @@ export const SITE_CONTACT = {
     en: 'Sat - Thu: 9:00 - 21:00',
     ar: 'السبت - الخميس: ٩:٠٠ - ٢١:٠٠',
   },
-  whatsapp: '97180025246',
+  whatsapp: '971547866055',
   social: {
     facebook: 'https://www.facebook.com/alainwater',
     instagram: 'https://www.instagram.com/alainwaterofficial',

@@ -1,6 +1,6 @@
 export const SITE_EMAIL = 'help@alainwater.com'
 export const SITE_PHONE = '80025246'
-export const SITE_WHATSAPP = '+97180025246'
+export const SITE_WHATSAPP = '+971547866055'
 
 const LEGACY_EMAILS = ['myahalwaht430@gmail.com', 'Ainalalain@gmail.com']
 const LEGACY_PHONES = ['+96893649190', '96893649190', '93649190', '+96895330047', '96895330047']

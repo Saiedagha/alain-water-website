@@ -12,7 +12,7 @@ export const defaultSettings = {
   hero_badge: '',
   hero_image_url: '',
   phone: '80025246',
-  whatsapp: '+97180025246',
+  whatsapp: '+971547866055',
   email: 'help@alainwater.com',
   address: 'Sky Tower, 17th Floor, Al Reem Island, Abu Dhabi, UAE',
   address_ar: 'برج سكاي، الطابق ١٧، جزيرة الريم، أبوظبي، الإمارات',
@@ -35,11 +35,16 @@ function mergeSettings(data) {
     Number.isFinite(parsedDepositAmount) && parsedDepositAmount !== 1
       ? parsedDepositAmount
       : defaultSettings.deposit_amount
+  const normalizedWhatsapp =
+    data.whatsapp && String(data.whatsapp).replace(/\D/g, '') !== '97180025246'
+      ? data.whatsapp
+      : defaultSettings.whatsapp
 
   return {
     ...defaultSettings,
     ...data,
     deposit_amount: normalizedDepositAmount,
+    whatsapp: normalizedWhatsapp,
     content_json:
       data.content_json && typeof data.content_json === 'object'
         ? data.content_json
