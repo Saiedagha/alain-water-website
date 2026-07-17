@@ -7,7 +7,7 @@ export default function CategoryCircles() {
   const ui = UI[lang] || UI.en
 
   return (
-    <section className="bg-white py-10 md:py-14">
+    <section className="bg-white py-10 md:py-12 lg:py-14">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div
           className="md:hidden flex gap-5 overflow-x-auto snap-x snap-mandatory pb-2 touch-pan-x"
@@ -46,7 +46,7 @@ export default function CategoryCircles() {
               to={`/collections/${cat.slug}`}
               className="group flex flex-col items-center text-center"
             >
-              <div className="flex h-48 w-48 items-center justify-center overflow-hidden rounded-full bg-gradient-to-b from-[#d7eef8] to-white p-3 shadow-sm transition group-hover:shadow-md">
+              <div className="flex h-[10.5rem] w-[10.5rem] items-center justify-center overflow-hidden rounded-full bg-gradient-to-b from-[#d7eef8] to-white p-3 shadow-sm transition group-hover:shadow-md">
                 <img
                   src={cat.image}
                   alt={cat.title.en}
@@ -54,7 +54,7 @@ export default function CategoryCircles() {
                   loading="lazy"
                 />
               </div>
-              <h4 className="mt-4 text-lg font-bold text-slate-900">
+              <h4 className="mt-4 text-base lg:text-lg font-bold text-slate-900">
                 {cat.title[lang] || cat.title.en}
               </h4>
               <span className="mt-1 inline-flex items-center gap-1 text-sm font-semibold text-alain-blue">

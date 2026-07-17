@@ -3,6 +3,7 @@ import Hero from '../components/Hero'
 import CategoryCircles from '../components/CategoryCircles'
 import Bestsellers from '../components/Bestsellers'
 import BrandStory from '../components/BrandStory'
+import BrandStoryVideo from '../components/BrandStoryVideo'
 import NewsSection from '../components/NewsSection'
 import ConnectWithUs from '../components/ConnectWithUs'
 import SeoMeta from '../components/SeoMeta'
@@ -42,6 +43,7 @@ export default function Home() {
       <CategoryCircles />
       <Bestsellers />
       <BrandStory />
+      <BrandStoryVideo />
       <NewsSection />
       <ConnectWithUs />
       <ScrollTopButton />

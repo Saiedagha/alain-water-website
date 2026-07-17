@@ -447,7 +447,7 @@ export default function CheckoutPage() {
                   <div>
                     <p className="font-black text-slate-900">{c.payFull}</p>
                     <p className="text-sm text-slate-500 mt-1 leading-6">
-                      {c.payFullHint.replace('{total}', total.toFixed(3))}
+                      {c.payFullHint.replace('{total}', total.toFixed(2))}
                     </p>
                   </div>
                 </div>
@@ -463,7 +463,7 @@ export default function CheckoutPage() {
                       {getProductName(item, lang)} × {item.quantity}
                     </span>
                     <span className="font-black text-alain-blue shrink-0">
-                      {(item.price * item.quantity).toFixed(3)} {t.currency}
+                      {(item.price * item.quantity).toFixed(2)} {t.currency}
                     </span>
                   </li>
                 ))}
@@ -472,7 +472,7 @@ export default function CheckoutPage() {
                 <div className="flex justify-between font-semibold text-slate-600">
                   <span>{c.subtotal}</span>
                   <span>
-                    {total.toFixed(3)} {t.currency}
+                    {total.toFixed(2)} {t.currency}
                   </span>
                 </div>
                 <div className="flex justify-between font-semibold text-slate-600">
@@ -482,7 +482,7 @@ export default function CheckoutPage() {
                 <div className="flex justify-between font-black text-slate-900 text-base pt-1">
                   <span>{c.payNowLabel}</span>
                   <span className="text-alain-blue">
-                    {payNow.toFixed(3)} {t.currency}
+                    {payNow.toFixed(2)} {t.currency}
                   </span>
                 </div>
               </div>

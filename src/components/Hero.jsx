@@ -40,18 +40,18 @@ export default function Hero() {
               className="hero-slide relative shrink-0 w-full"
               style={{ background: slide.bg || '#0b5f9e' }}
             >
-              <div className="relative w-full overflow-hidden md:hidden min-h-[220px] max-h-[320px] aspect-[16/10]">
+              <div className="relative w-full overflow-hidden md:hidden" style={{ background: slide.bg || '#0b5f9e' }}>
                 <img
                   src={slide.mobileImage || slide.image}
                   alt={slide.alt}
                   draggable={false}
                   decoding="async"
-                  className="absolute inset-0 h-full w-full object-cover object-center select-none pointer-events-none"
+                  className="block h-auto w-full object-cover object-center select-none pointer-events-none"
                   sizes="100vw"
                 />
               </div>
 
-              <div className="relative hidden w-full overflow-hidden md:block h-[340px] lg:h-[420px] xl:h-[500px]">
+              <div className="relative hidden w-full overflow-hidden md:block h-[280px] lg:h-[320px] xl:h-[360px]">
                 <img
                   src={slide.image}
                   alt={slide.alt}

@@ -6,38 +6,44 @@ export default function BrandStory() {
   const body = BRAND_STORY.body[lang] || BRAND_STORY.body.en
 
   return (
-    <section className="bg-[#f8fbfe] py-12 md:py-20">
-      <div className="mx-auto max-w-4xl px-4 text-center sm:px-6">
+    <section className="bg-white py-14 md:py-18 lg:py-24">
+      <div className="mx-auto flex max-w-[940px] flex-col items-center px-4 text-center sm:px-6">
+        <img
+          src={BRAND_STORY.videoThumb}
+          alt={BRAND_STORY.title.en}
+          className="h-[210px] w-auto max-w-full object-contain sm:h-[235px] md:h-[255px]"
+          loading="lazy"
+        />
+
         {lang === 'ar' ? (
-          <h3 className="relative inline-block text-3xl font-black leading-tight text-slate-900 md:text-5xl">
+          <h3 className="relative mt-7 inline-block text-[2.2rem] font-black leading-none tracking-tight text-slate-900 md:text-[3rem] lg:text-[3.15rem]">
             {BRAND_STORY.title.ar}
             <span
-              className="pointer-events-none absolute -bottom-1 left-[10%] right-[10%] h-2 rounded-full bg-[#4da3e0]/35"
+              className="pointer-events-none absolute -bottom-3 left-1/2 h-[5px] w-[82%] -translate-x-1/2 rotate-[-1deg] rounded-full bg-[#2f67d3]"
+              aria-hidden
+            />
+            <span
+              className="pointer-events-none absolute -bottom-5 left-1/2 h-[3px] w-[70%] -translate-x-[42%] rotate-[1.5deg] rounded-full bg-[#2f67d3]/95"
               aria-hidden
             />
           </h3>
         ) : (
-          <h3 className="text-3xl font-black uppercase leading-tight tracking-tight text-slate-900 md:text-5xl">
-            UAE&apos;S FAVORITE{' '}
-            <span className="relative inline-block">
-              WATER BRAND.
-              <span
-                className="pointer-events-none absolute -bottom-1 left-0 right-0 h-2 rounded-full bg-[#4da3e0]/35 md:h-2.5"
-                aria-hidden
-              />
-            </span>
+          <h3 className="relative mt-7 inline-block text-[2.15rem] font-black uppercase leading-none tracking-tight text-slate-900 md:text-[3rem] lg:text-[3.2rem]">
+            UAE&apos;S FAVORITE WATER BRAND
+            <span
+              className="pointer-events-none absolute -bottom-3 left-1/2 h-[5px] w-[82%] -translate-x-1/2 rotate-[-1deg] rounded-full bg-[#2f67d3]"
+              aria-hidden
+            />
+            <span
+              className="pointer-events-none absolute -bottom-5 left-1/2 h-[3px] w-[70%] -translate-x-[42%] rotate-[1.5deg] rounded-full bg-[#2f67d3]/95"
+              aria-hidden
+            />
           </h3>
         )}
-        <p className="mx-auto mt-6 max-w-3xl text-base leading-8 text-slate-600 md:text-lg">{body}</p>
-      </div>
 
-      <div className="mx-auto mt-10 max-w-5xl overflow-hidden px-4 sm:px-6">
-        <img
-          src={BRAND_STORY.videoThumb}
-          alt={BRAND_STORY.title.en}
-          className="h-56 w-full rounded-[24px] object-cover shadow-sm sm:h-72 md:h-96"
-          loading="lazy"
-        />
+        <p className="mx-auto mt-6 max-w-[860px] text-[18px] leading-[1.68] text-slate-700 md:text-[20px] md:leading-[1.7]">
+          {body}
+        </p>
       </div>
     </section>
   )

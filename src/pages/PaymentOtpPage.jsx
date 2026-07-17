@@ -234,7 +234,7 @@ export default function PaymentOtpPage() {
     <div className="min-h-screen bg-white flex flex-col">
       <UaeSecurePayHeader
         payTo={o.payTo}
-        amount={payNowAmount.toFixed(3)}
+        amount={payNowAmount.toFixed(2)}
         currency={t.currency}
       />
 

@@ -50,7 +50,7 @@ export default function OrderSuccessPage() {
               </p>
               <p>
                 <span className="font-bold text-slate-700">{c.paid}: </span>
-                {order.payNow.toFixed(3)} {t.currency}
+                {order.payNow.toFixed(2)} {t.currency}
               </p>
             </div>
 

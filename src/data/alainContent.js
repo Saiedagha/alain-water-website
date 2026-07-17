@@ -8,8 +8,7 @@ export const HERO_SLIDES = [
     id: 1,
     image:
       'https://alainwater.com/cdn/shop/files/sparkling_can_banner_1_4000x938_crop_center.jpg?v=1760346604',
-    mobileImage:
-      'https://alainwater.com/cdn/shop/files/sparkling_can_banner_1_4000x938_crop_center.jpg?v=1760346604',
+    mobileImage: 'https://alainwater.com/cdn/shop/files/SecondaryInformation_1-11.jpg?v=1757581874',
     alt: 'Sparkling Water — Now Available in Cans',
     bg: '#1a7a3c',
   },
@@ -17,8 +16,7 @@ export const HERO_SLIDES = [
     id: 2,
     image:
       'https://alainwater.com/cdn/shop/files/sparkling_can_banner_2_4001x939_crop_center.jpg?v=1760346604',
-    mobileImage:
-      'https://alainwater.com/cdn/shop/files/sparkling_can_banner_2_4001x939_crop_center.jpg?v=1760346604',
+    mobileImage: 'https://alainwater.com/cdn/shop/files/SecondaryInformation_1-13.jpg?v=1757581874',
     alt: 'Sparkling Water — 0 Calories, 0 Sugar',
     bg: '#1a7a3c',
   },
@@ -26,8 +24,7 @@ export const HERO_SLIDES = [
     id: 3,
     image:
       'https://alainwater.com/cdn/shop/files/sparkling_can_banner_3_4001x938_crop_center.jpg?v=1760346604',
-    mobileImage:
-      'https://alainwater.com/cdn/shop/files/sparkling_can_banner_3_4001x938_crop_center.jpg?v=1760346604',
+    mobileImage: 'https://alainwater.com/cdn/shop/files/SecondaryInformation_1-12.jpg?v=1757581874',
     alt: 'Made with Zero Calories | Sugar',
     bg: '#1a7a3c',
   },
@@ -35,8 +32,7 @@ export const HERO_SLIDES = [
     id: 4,
     image:
       'https://alainwater.com/cdn/shop/files/Web_Banner_Main_Screen_Mobile_View_1920x450-08.jpg?v=1738902149',
-    mobileImage:
-      'https://alainwater.com/cdn/shop/files/Web_Banner_Main_Screen_Mobile_View_1920x450-08.jpg?v=1738902149',
+    mobileImage: 'https://alainwater.com/cdn/shop/files/SecondaryInformation_1-11.jpg?v=1757581874',
     alt: 'Choose Quality, Choose Al Ain',
     bg: '#0b5f9e',
   },
@@ -220,7 +216,7 @@ export const BRAND_STORY = {
     ar: 'بتراث قوي من النقاء والطيب الطبيعي، تُعرف مياه العين كالخيار المفضل لدى المستهلكين. مياه العين تحتوي على التوازن الصحيح من المعادن للحفاظ على ترطيبك وصحتك.',
   },
   videoThumb:
-    'https://alainwater.com/cdn/shop/files/preview_images/25e807e0d9e4466688bd64287a6b8827.thumbnail.0000000000_1280x.jpg?v=1712150337',
+    'https://alainwater.com/cdn/shop/files/drop_Blue_325x504_crop_center.png?v=1712162623',
 }
 
 export const SITE_CONTACT = {

@@ -125,14 +125,14 @@ export default function useProducts() {
 
     if (fetchError) {
       setError(fetchError.message)
-      setProducts(mapCatalogFallback())
+      setProducts([])
       setFromDb(false)
     } else if (!data?.length) {
-      setProducts(mapCatalogFallback())
+      setProducts([])
       setFromDb(true)
     } else {
       const mapped = data.map(mapDbProduct).filter((p) => p.slug)
-      setProducts(mapped.length ? mapped : mapCatalogFallback())
+      setProducts(mapped)
       setFromDb(true)
     }
 

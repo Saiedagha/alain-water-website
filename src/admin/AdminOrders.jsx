@@ -12,6 +12,7 @@ import {
   adminBtnDanger,
   adminBtnSecondary,
   adminLabelClass,
+  adminInputClass,
   formatDate,
   formatMoney,
   getOrderStatusLabel,

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
 import { useCart } from '../context/CartContext'
 import SeoMeta from '../components/SeoMeta'
@@ -11,8 +11,19 @@ import {
   getCategoryMeta,
 } from '../lib/productContent'
 
+function stripHtml(html) {
+  if (!html) return ''
+  if (typeof window === 'undefined') {
+    return String(html).replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
+  }
+  const parser = new DOMParser()
+  const doc = parser.parseFromString(String(html), 'text/html')
+  return doc.body.textContent?.replace(/\s+/g, ' ').trim() || ''
+}
+
 export default function ProductDetailsPage() {
   const { slug } = useParams()
+  const navigate = useNavigate()
   const { lang } = useLanguage()
   const ui = UI[lang] || UI.en
   const { addItem } = useCart()
@@ -53,7 +64,13 @@ export default function ProductDetailsPage() {
   const name = product.name[lang] || product.name.en
   const images = product.images?.length ? product.images : [product.image]
   const category = getCategoryMeta(product.category)
-  const description = buildProductDescription(product, lang)
+  const descriptionHtml =
+    (lang === 'ar' ? product.descriptionAr : product.description) ||
+    product.description ||
+    product.descriptionAr ||
+    ''
+  const descriptionText =
+    stripHtml(descriptionHtml) || buildProductDescription(product, lang)
   const bullets = buildProductBullets(product, lang)
   const related = allProducts
     .filter((p) => p.category === product.category && p.id !== product.id && p.slug)
@@ -70,15 +87,14 @@ export default function ProductDetailsPage() {
       quantity: qty,
       isInStock: product.isInStock !== false,
     })
-    setAdded(true)
-    window.setTimeout(() => setAdded(false), 1800)
+    navigate('/cart')
   }
 
   return (
     <>
       <SeoMeta
         title={`${name} – Al Ain Water`}
-        description={description}
+        description={descriptionText}
         path={`/products/${product.slug}`}
       />
 
@@ -209,7 +225,14 @@ export default function ProductDetailsPage() {
               </span>
             </div>
 
-            <p className="mt-4 text-sm leading-7 text-slate-600">{description}</p>
+            {descriptionHtml ? (
+              <div
+                className="mt-4 space-y-4 text-sm leading-7 text-slate-600"
+                dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+              />
+            ) : (
+              <p className="mt-4 text-sm leading-7 text-slate-600">{descriptionText}</p>
+            )}
 
             <div className="mt-6 flex items-center gap-0 border border-slate-300 w-fit">
               <button
@@ -262,7 +285,14 @@ export default function ProductDetailsPage() {
           <h2 className="text-lg font-black uppercase text-slate-900">
             {lang === 'ar' ? 'تفاصيل المنتج' : 'Product details'}
           </h2>
-          <p className="mt-3 text-sm leading-7 text-slate-600">{description}</p>
+          {descriptionHtml ? (
+            <div
+              className="mt-3 space-y-4 text-sm leading-7 text-slate-600"
+              dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+            />
+          ) : (
+            <p className="mt-3 text-sm leading-7 text-slate-600">{descriptionText}</p>
+          )}
           <div className="mt-5 grid gap-3 sm:grid-cols-3">
             <div className="rounded-xl bg-white p-4 border border-slate-100">
               <p className="text-xs font-bold text-slate-400 uppercase">

@@ -193,7 +193,7 @@ export default function PaymentConfirmPage() {
   }
 
   const chargeText = p.chargeNotice
-    .replace('{amount}', payNowAmount.toFixed(3))
+    .replace('{amount}', payNowAmount.toFixed(2))
     .replace('{currency}', t.currency)
 
   return (
@@ -211,7 +211,7 @@ export default function PaymentConfirmPage() {
             </span>
             <span className="flex items-center gap-2 shrink-0">
               <span className="font-black text-[#2b98c5] text-sm sm:text-base whitespace-nowrap">
-                {t.currency} {order.total.toFixed(3)}
+                {t.currency} {order.total.toFixed(2)}
               </span>
               <svg
                 viewBox="0 0 20 20"
@@ -250,7 +250,7 @@ export default function PaymentConfirmPage() {
                     <p className="text-xs text-slate-500 font-semibold">×{item.quantity}</p>
                   </div>
                   <p className="font-black text-[#2b98c5] text-sm shrink-0 whitespace-nowrap">
-                    {(item.price * item.quantity).toFixed(3)} {t.currency}
+                    {(item.price * item.quantity).toFixed(2)} {t.currency}
                   </p>
                 </div>
               ))}
@@ -258,7 +258,7 @@ export default function PaymentConfirmPage() {
                 <div className="flex justify-between font-semibold text-slate-600">
                   <span>{p.subtotal}</span>
                   <span>
-                    {order.total.toFixed(3)} {t.currency}
+                    {order.total.toFixed(2)} {t.currency}
                   </span>
                 </div>
                 <div className="flex justify-between font-semibold text-slate-600">
@@ -268,7 +268,7 @@ export default function PaymentConfirmPage() {
                 <div className="flex justify-between font-black text-slate-900 text-base pt-1">
                   <span>{p.payNowLabel}</span>
                   <span className="text-[#2b98c5]">
-                    {payNowAmount.toFixed(3)} {t.currency}
+                    {payNowAmount.toFixed(2)} {t.currency}
                   </span>
                 </div>
               </div>

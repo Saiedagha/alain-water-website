@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { LOGO_URL } from '../data/alainContent'
 import { isSupabaseConfigured, supabase } from '../lib/supabase'
@@ -9,6 +9,30 @@ export default function AdminLogin() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+
+  useEffect(() => {
+    if (!isSupabaseConfigured || !supabase) return undefined
+
+    let active = true
+
+    const restoreSession = async () => {
+      const { data } = await supabase.auth.getSession()
+      if (!active || !data.session) return
+
+      const { data: isAdmin, error } = await supabase.rpc('is_admin')
+      if (!active) return
+
+      if (!error && isAdmin) {
+        navigate('/admin', { replace: true })
+      }
+    }
+
+    restoreSession()
+
+    return () => {
+      active = false
+    }
+  }, [navigate])
 
   const handleLogin = async (e) => {
     e.preventDefault()
