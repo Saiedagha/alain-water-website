@@ -32,14 +32,6 @@ const menuSections = [
       { label: 'رسائل التواصل', path: '/admin/contact-messages', notificationKey: 'messages' },
     ],
   },
-  {
-    title: 'الموقع',
-    items: [
-      { label: 'إعدادات الموقع', path: '/admin/site-settings' },
-      { label: 'المحتوى', path: '/admin/content' },
-      { label: 'الصفحات', path: '/admin/pages' },
-    ],
-  },
 ]
 
 const pageTitles = [
