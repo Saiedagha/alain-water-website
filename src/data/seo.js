@@ -29,4 +29,10 @@ export const PAGE_SEO = {
     description: 'Complete your Al Ain Water order.',
     path: '/checkout',
   },
+  notFound: {
+    title: 'Page Not Found | Al Ain Water',
+    description: 'The page you requested could not be found.',
+    path: '/404',
+    noindex: true,
+  },
 }

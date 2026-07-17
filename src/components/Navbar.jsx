@@ -1,18 +1,9 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '../context/LanguageContext'
 import { useCart } from '../context/CartContext'
 import { LOGO_URL, NAV_PRODUCT_LINKS, SITE_CONTACT, UI } from '../data/alainContent'
 import useProducts from '../hooks/useProducts'
-
-function IconUser({ className = 'w-[22px] h-[22px]' }) {
-  return (
-    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.7">
-      <circle cx="12" cy="8" r="3.4" />
-      <path d="M5 19.2c1.7-3 4.1-4.5 7-4.5s5.3 1.5 7 4.5" strokeLinecap="round" />
-    </svg>
-  )
-}
 
 function IconSearch({ className = 'w-[22px] h-[22px]' }) {
   return (
@@ -95,12 +86,9 @@ function SocialIcon({ type }) {
   )
 }
 
-function UtilityIcons({ count, onUser, onSearch, cartTo = '/cart' }) {
+function UtilityIcons({ count, onSearch, cartTo = '/cart' }) {
   return (
     <div className="flex items-center gap-3 text-[#2c3e50]">
-      <button type="button" className="p-0.5" aria-label="Account" onClick={onUser}>
-        <IconUser />
-      </button>
       <button type="button" className="p-0.5" aria-label="Search" onClick={onSearch}>
         <IconSearch />
       </button>
@@ -120,7 +108,6 @@ export default function Navbar() {
   const { count } = useCart()
   const { products: allProducts } = useProducts()
   const location = useLocation()
-  const navigate = useNavigate()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false)
   const [productsOpen, setProductsOpen] = useState(false)
@@ -157,8 +144,6 @@ export default function Navbar() {
   }, [])
 
   const toggleLang = () => setLang(lang === 'ar' ? 'en' : 'ar')
-  const goLogin = () => navigate('/account/login')
-
   const filtered = query.trim()
     ? allProducts
         .filter((p) => {
@@ -200,7 +185,7 @@ export default function Navbar() {
           </Link>
 
           <div className="z-10">
-            <UtilityIcons count={count} onUser={goLogin} onSearch={() => setSearchOpen((o) => !o)} />
+            <UtilityIcons count={count} onSearch={() => setSearchOpen((o) => !o)} />
           </div>
         </div>
 
@@ -256,7 +241,7 @@ export default function Navbar() {
               </nav>
 
               <div className="flex items-center gap-5 text-slate-700">
-                <UtilityIcons count={count} onUser={goLogin} onSearch={() => setSearchOpen((o) => !o)} />
+                <UtilityIcons count={count} onSearch={() => setSearchOpen((o) => !o)} />
                 <button
                   type="button"
                   onClick={toggleLang}

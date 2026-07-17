@@ -14,7 +14,6 @@ import CartPage from './pages/CartPage'
 import NewsPage from './pages/NewsPage'
 import { ProductsPage, CollectionPage, CollectionsIndexPage } from './pages/ShopPages'
 import ProductDetailsPage from './pages/ProductDetailsPage'
-import AccountLoginPage from './pages/AccountLoginPage'
 import CheckoutPage from './pages/CheckoutPage'
 import PaymentConfirmPage from './pages/PaymentConfirmPage'
 import PaymentOtpPage from './pages/PaymentOtpPage'
@@ -81,7 +80,6 @@ export default function App() {
           <Route path="/products/:slug" element={<ProductDetailsPage />} />
           <Route path="/collections" element={<CollectionsIndexPage />} />
           <Route path="/collections/:slug" element={<CollectionPage />} />
-          <Route path="/account/login" element={<AccountLoginPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/checkout/confirm" element={<PaymentConfirmPage />} />
           <Route path="/checkout/otp" element={<PaymentOtpPage />} />
