@@ -59,6 +59,9 @@ export function mapDbProduct(product) {
   const nameAr =
     product.name?.ar || product.name_ar || product.nameAr || catalog?.name?.ar || nameEn
 
+  const sourcePrice = Number(product.price || catalog?.price || 0)
+  const finalPrice = Number.isFinite(sourcePrice) ? sourcePrice / 2 : 0
+
   const mapped = {
     id: product.id,
     slug: product.slug || catalog?.slug || slugifyProduct(nameEn) || String(product.id),
@@ -70,7 +73,7 @@ export function mapDbProduct(product) {
     nameAr,
     description: product.description || '',
     descriptionAr: product.description_ar || product.descriptionAr || product.description || '',
-    price: Number(product.price || catalog?.price || 0),
+    price: finalPrice,
     featured: Boolean(product.is_featured ?? product.featured ?? catalog?.featured),
     image: fallbackImage,
     images: images.length ? images : [fallbackImage],

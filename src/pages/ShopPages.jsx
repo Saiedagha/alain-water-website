@@ -13,7 +13,6 @@ function ProductCard({ product }) {
   const { lang } = useLanguage()
   const ui = UI[lang] || UI.en
   if (!product?.slug) return null
-  const oldPrice = (product.price * 2).toFixed(2)
 
   return (
     <Link to={`/products/${product.slug}`} className="group flex flex-col">
@@ -38,14 +37,9 @@ function ProductCard({ product }) {
         <p className="text-sm font-semibold leading-snug text-slate-800 line-clamp-2 min-h-[2.5rem]">
           {product.name[lang] || product.name.en}
         </p>
-        <div className="mt-1 flex items-center justify-center gap-2">
-          <p className="text-sm font-bold text-slate-900">
-            {product.price.toFixed(2)} {ui.aed}
-          </p>
-          <p className="text-xs text-slate-500 line-through">
-            {lang === 'ar' ? 'بدلًا من' : 'Instead of'} {oldPrice} {ui.aed}
-          </p>
-        </div>
+        <p className="mt-1 text-sm font-bold text-slate-900">
+          {product.price.toFixed(2)} {ui.aed}
+        </p>
       </div>
     </Link>
   )

@@ -63,14 +63,9 @@ export default function Bestsellers() {
                         <p className="text-[15px] leading-6 text-slate-700 line-clamp-2">
                           {product.name[lang] || product.name.en}
                         </p>
-                        <div className="mt-1.5 flex items-center justify-center gap-2">
-                          <p className="text-[15px] font-medium text-slate-700">
-                            {product.price.toFixed(2)} {ui.aed}
-                          </p>
-                          <p className="text-xs text-slate-500 line-through">
-                            {lang === 'ar' ? 'بدلًا من' : 'Instead of'} {(product.price * 2).toFixed(2)} {ui.aed}
-                          </p>
-                        </div>
+                        <p className="mt-1.5 text-[15px] font-medium text-slate-600">
+                          {product.price.toFixed(2)} {ui.aed}
+                        </p>
                       </div>
                     </div>
                   </Link>
