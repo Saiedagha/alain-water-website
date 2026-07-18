@@ -87,7 +87,6 @@ html.mobile-menu-open .wa-page-float {
   -webkit-overflow-scrolling: touch;
   scroll-snap-type: x mandatory;
   overscroll-behavior-x: contain;
-  touch-action: pan-x;
 }
 
 .hero-slide {

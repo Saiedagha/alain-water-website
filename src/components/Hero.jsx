@@ -49,7 +49,6 @@ export default function Hero() {
           ref={mobileRailRef}
           onScroll={onMobileScroll}
           className="hero-scroller flex w-full overflow-x-auto md:hidden"
-          style={{ touchAction: 'pan-x' }}
           aria-label="Hero banners"
         >
           {HERO_SLIDES.map((slide) => (
