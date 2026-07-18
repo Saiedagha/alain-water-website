@@ -28,6 +28,8 @@ export default function NewsSection() {
 
   const onPointerMove = (event) => {
     if (!dragRef.current.isDown || !railRef.current) return
+    event.preventDefault()
+
     const deltaX = event.clientX - dragRef.current.startX
     if (Math.abs(deltaX) > 5) {
       dragRef.current.moved = true
@@ -37,7 +39,9 @@ export default function NewsSection() {
 
   const onPointerUp = (event) => {
     dragRef.current.isDown = false
-    railRef.current?.releasePointerCapture?.(event.pointerId)
+    if (event?.pointerId != null) {
+      railRef.current?.releasePointerCapture?.(event.pointerId)
+    }
   }
 
   const onRailClickCapture = (event) => {
@@ -76,9 +80,10 @@ export default function NewsSection() {
             onPointerDown={onPointerDown}
             onPointerMove={onPointerMove}
             onPointerUp={onPointerUp}
+            onPointerLeave={onPointerUp}
             onPointerCancel={onPointerUp}
             onClickCapture={onRailClickCapture}
-            className="flex gap-5 overflow-x-auto pb-4 px-1 -mx-1 snap-x snap-mandatory scroll-smooth overscroll-x-contain md:gap-6"
+            className="flex gap-5 overflow-x-auto pb-4 px-1 -mx-1 snap-x snap-mandatory scroll-smooth overscroll-x-contain md:gap-6 cursor-grab active:cursor-grabbing select-none"
             style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', touchAction: 'pan-y' }}
           >
             {NEWS_POSTS.map((post) => (

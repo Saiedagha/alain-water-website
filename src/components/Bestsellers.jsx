@@ -10,6 +10,7 @@ export default function Bestsellers() {
   const { products, loading } = useProducts()
   const bestsellers = products.filter((p) => p.featured).slice(0, 8)
   const railRef = useRef(null)
+  const dragRef = useRef({ isDown: false, startX: 0, startLeft: 0, moved: false })
 
   useEffect(() => {
     if (loading || !bestsellers.length || !railRef.current) return
@@ -17,9 +18,46 @@ export default function Bestsellers() {
 
     const rail = railRef.current
     requestAnimationFrame(() => {
-      rail.scrollLeft = rail.scrollWidth
+      rail.scrollLeft = 0
     })
   }, [loading, bestsellers.length])
+
+  const onPointerDown = (event) => {
+    if (!railRef.current) return
+    dragRef.current = {
+      isDown: true,
+      startX: event.clientX,
+      startLeft: railRef.current.scrollLeft,
+      moved: false,
+    }
+    railRef.current.setPointerCapture?.(event.pointerId)
+  }
+
+  const onPointerMove = (event) => {
+    if (!dragRef.current.isDown || !railRef.current) return
+    event.preventDefault()
+
+    const deltaX = event.clientX - dragRef.current.startX
+    if (Math.abs(deltaX) > 5) {
+      dragRef.current.moved = true
+    }
+    railRef.current.scrollLeft = dragRef.current.startLeft - deltaX
+  }
+
+  const onPointerUp = (event) => {
+    dragRef.current.isDown = false
+    if (event?.pointerId != null) {
+      railRef.current?.releasePointerCapture?.(event.pointerId)
+    }
+  }
+
+  const onRailClickCapture = (event) => {
+    if (dragRef.current.moved) {
+      event.preventDefault()
+      event.stopPropagation()
+      dragRef.current.moved = false
+    }
+  }
 
   return (
     <section className="bg-white py-8 md:py-12 lg:py-14" id="bestsellers">
@@ -37,8 +75,14 @@ export default function Bestsellers() {
             <div
               ref={railRef}
               dir="ltr"
-              className="flex gap-4 overflow-x-auto pb-4 px-1 -mx-1 snap-x snap-mandatory scroll-smooth overscroll-x-contain md:gap-6"
-              style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}
+              onPointerDown={onPointerDown}
+              onPointerMove={onPointerMove}
+              onPointerUp={onPointerUp}
+              onPointerLeave={onPointerUp}
+              onPointerCancel={onPointerUp}
+              onClickCapture={onRailClickCapture}
+              className="flex gap-4 overflow-x-auto pb-4 px-1 -mx-1 snap-x snap-mandatory scroll-smooth overscroll-x-contain md:gap-6 cursor-grab active:cursor-grabbing select-none"
+              style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', touchAction: 'pan-y' }}
             >
               {bestsellers
                 .filter((product) => product.slug)
