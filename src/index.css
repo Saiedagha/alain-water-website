@@ -71,8 +71,18 @@ html.mobile-menu-open .wa-page-float {
 }
 
 /* Hide native scrollbar on mobile carousels */
-.snap-x::-webkit-scrollbar {
+.snap-x::-webkit-scrollbar,
+.mobile-carousel::-webkit-scrollbar {
   display: none;
+}
+
+.mobile-carousel {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x;
 }
 
 .hero-slide {

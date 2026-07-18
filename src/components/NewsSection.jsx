@@ -7,49 +7,11 @@ export default function NewsSection() {
   const { lang } = useLanguage()
   const ui = UI[lang] || UI.en
   const railRef = useRef(null)
-  const dragRef = useRef({ isDown: false, startX: 0, startLeft: 0, moved: false })
 
   const scrollRail = (direction) => {
     if (!railRef.current) return
     const amount = railRef.current.clientWidth * 0.85
     railRef.current.scrollBy({ left: direction * amount, behavior: 'smooth' })
-  }
-
-  const onPointerDown = (event) => {
-    if (!railRef.current) return
-    dragRef.current = {
-      isDown: true,
-      startX: event.clientX,
-      startLeft: railRef.current.scrollLeft,
-      moved: false,
-    }
-    railRef.current.setPointerCapture?.(event.pointerId)
-  }
-
-  const onPointerMove = (event) => {
-    if (!dragRef.current.isDown || !railRef.current) return
-    event.preventDefault()
-
-    const deltaX = event.clientX - dragRef.current.startX
-    if (Math.abs(deltaX) > 5) {
-      dragRef.current.moved = true
-    }
-    railRef.current.scrollLeft = dragRef.current.startLeft - deltaX
-  }
-
-  const onPointerUp = (event) => {
-    dragRef.current.isDown = false
-    if (event?.pointerId != null) {
-      railRef.current?.releasePointerCapture?.(event.pointerId)
-    }
-  }
-
-  const onRailClickCapture = (event) => {
-    if (dragRef.current.moved) {
-      event.preventDefault()
-      event.stopPropagation()
-      dragRef.current.moved = false
-    }
   }
 
   return (
@@ -77,14 +39,7 @@ export default function NewsSection() {
 
           <div
             ref={railRef}
-            onPointerDown={onPointerDown}
-            onPointerMove={onPointerMove}
-            onPointerUp={onPointerUp}
-            onPointerLeave={onPointerUp}
-            onPointerCancel={onPointerUp}
-            onClickCapture={onRailClickCapture}
-            className="flex gap-5 overflow-x-auto pb-4 px-1 -mx-1 snap-x snap-mandatory scroll-smooth overscroll-x-contain md:gap-6 cursor-grab active:cursor-grabbing select-none"
-            style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', touchAction: 'pan-y' }}
+            className="mobile-carousel flex gap-5 overflow-x-auto pb-4 px-1 -mx-1 snap-x snap-mandatory scroll-smooth overscroll-x-contain md:gap-6 select-none"
           >
             {NEWS_POSTS.map((post) => (
               <article

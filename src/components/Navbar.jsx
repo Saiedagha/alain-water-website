@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '../context/LanguageContext'
 import { useCart } from '../context/CartContext'
-import { LOGO_URL, NAV_PRODUCT_LINKS, SITE_CONTACT, UI } from '../data/alainContent'
+import { CATEGORIES, LOGO_URL, NAV_PRODUCT_LINKS, SITE_CONTACT, UI } from '../data/alainContent'
 import useProducts from '../hooks/useProducts'
 
 function IconSearch({ className = 'w-[22px] h-[22px]' }) {
@@ -45,6 +45,15 @@ function IconLogin() {
     <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8">
       <rect x="3" y="4" width="10" height="16" rx="1.5" />
       <path d="M13 12h8M17 8l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+function IconUser({ className = 'w-4 h-4' }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.8">
+      <path d="M12 12a4 4 0 100-8 4 4 0 000 8z" />
+      <path d="M4 20c1.4-3.2 4-4.8 8-4.8s6.6 1.6 8 4.8" strokeLinecap="round" />
     </svg>
   )
 }
@@ -305,10 +314,6 @@ export default function Navbar() {
             <div className="z-10">
               <UtilityIcons
                 count={count}
-                onUser={() => {
-                  closeMobile()
-                  goLogin()
-                }}
                 onSearch={() => {
                   closeMobile()
                   setSearchOpen(true)
@@ -410,7 +415,7 @@ export default function Navbar() {
                 type="button"
                 onClick={() => {
                   closeMobile()
-                  goLogin()
+                  window.location.assign('/admin/login')
                 }}
                 className="inline-flex items-center gap-1.5 text-[#1a7fc2]"
               >
@@ -422,7 +427,7 @@ export default function Navbar() {
                 type="button"
                 onClick={() => {
                   closeMobile()
-                  goLogin()
+                  window.location.assign('/admin/login')
                 }}
                 className="inline-flex items-center gap-1.5 text-[#1a7fc2]"
               >
