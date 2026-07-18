@@ -5,6 +5,7 @@ import { HERO_SLIDES } from '../data/alainContent'
 export default function Hero() {
   const { lang, t } = useLanguage()
   const slide = HERO_SLIDES[0]
+  const heroBackground = '/assets/hero/iimg.png'
 
   const getSlideTitle = (currentSlide) => {
     if (typeof currentSlide.alt === 'string') return currentSlide.alt
@@ -15,7 +16,7 @@ export default function Hero() {
     <section
       className="relative w-full overflow-hidden"
       style={{
-        backgroundImage: `linear-gradient(rgba(11, 41, 74, 0.42), rgba(11, 41, 74, 0.42)), url(${slide?.image || ''})`,
+        backgroundImage: `linear-gradient(rgba(11, 41, 74, 0.42), rgba(11, 41, 74, 0.42)), url(${heroBackground})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -26,7 +27,7 @@ export default function Hero() {
           className="hero-scroller flex w-full overflow-x-auto md:hidden"
           aria-label="Hero banner"
           style={{
-            backgroundImage: `linear-gradient(rgba(11, 41, 74, 0.42), rgba(11, 41, 74, 0.42)), url(${slide?.mobileImage || slide?.image || ''})`,
+            backgroundImage: `linear-gradient(rgba(11, 41, 74, 0.42), rgba(11, 41, 74, 0.42)), url(${heroBackground})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
@@ -59,7 +60,7 @@ export default function Hero() {
           className="hero-track hidden w-full md:flex"
           aria-label="Hero banner"
           style={{
-            backgroundImage: `linear-gradient(rgba(11, 41, 74, 0.42), rgba(11, 41, 74, 0.42)), url(${slide?.image || ''})`,
+            backgroundImage: `linear-gradient(rgba(11, 41, 74, 0.42), rgba(11, 41, 74, 0.42)), url(${heroBackground})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
