@@ -72,6 +72,7 @@ export default function ProductDetailsPage() {
   const descriptionText =
     stripHtml(descriptionHtml) || buildProductDescription(product, lang)
   const bullets = buildProductBullets(product, lang)
+  const oldPrice = (product.price * 2).toFixed(2)
   const related = allProducts
     .filter((p) => p.category === product.category && p.id !== product.id && p.slug)
     .slice(0, 4)
@@ -208,6 +209,9 @@ export default function ProductDetailsPage() {
               <p className="text-xl font-bold text-slate-800">
                 {product.price.toFixed(2)} {ui.aed}
               </p>
+              <p className="text-sm text-slate-500 line-through">
+                {lang === 'ar' ? 'بدلًا من' : 'Instead of'} {oldPrice} {ui.aed}
+              </p>
               <span
                 className={`rounded-full px-2.5 py-1 text-[11px] font-black ${
                   product.isInStock !== false
@@ -315,6 +319,9 @@ export default function ProductDetailsPage() {
               <p className="mt-1 font-black text-slate-800">
                 {product.price.toFixed(2)} {ui.aed}
               </p>
+              <p className="mt-1 text-xs text-slate-500 line-through">
+                {lang === 'ar' ? 'بدلًا من' : 'Instead of'} {oldPrice} {ui.aed}
+              </p>
             </div>
           </div>
         </section>
@@ -326,6 +333,9 @@ export default function ProductDetailsPage() {
               <p className="truncate text-xs font-semibold text-slate-800">{name}</p>
               <p className="text-sm font-bold">
                 {product.price.toFixed(2)} {ui.aed}
+              </p>
+              <p className="text-[11px] text-slate-500 line-through">
+                {lang === 'ar' ? 'بدلًا من' : 'Instead of'} {oldPrice} {ui.aed}
               </p>
             </div>
             <button
@@ -366,6 +376,9 @@ export default function ProductDetailsPage() {
                   </p>
                   <p className="mt-1 text-sm font-bold">
                     {p.price.toFixed(2)} {ui.aed}
+                  </p>
+                  <p className="text-xs text-slate-500 line-through">
+                    {lang === 'ar' ? 'بدلًا من' : 'Instead of'} {(p.price * 2).toFixed(2)} {ui.aed}
                   </p>
                 </Link>
               ))}
