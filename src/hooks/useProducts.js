@@ -74,6 +74,7 @@ export function mapDbProduct(product) {
     description: product.description || '',
     descriptionAr: product.description_ar || product.descriptionAr || product.description || '',
     price: finalPrice,
+    originalPrice: sourcePrice,
     featured: Boolean(product.is_featured ?? product.featured ?? catalog?.featured),
     image: fallbackImage,
     images: images.length ? images : [fallbackImage],
