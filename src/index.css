@@ -27,7 +27,6 @@ body {
   overflow-x: hidden;
   overscroll-behavior-y: auto;
   -webkit-overflow-scrolling: touch;
-  touch-action: pan-y pinch-zoom;
 }
 
 .alain-link {
@@ -88,7 +87,7 @@ html.mobile-menu-open .wa-page-float {
   -webkit-overflow-scrolling: touch;
   scroll-snap-type: x mandatory;
   overscroll-behavior-x: contain;
-  touch-action: pan-y pinch-zoom;
+  touch-action: pan-x;
 }
 
 .hero-slide {
