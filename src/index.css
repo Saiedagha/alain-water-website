@@ -100,6 +100,15 @@ html.mobile-menu-open .wa-page-float {
   to { opacity: 1; }
 }
 
+@keyframes hero-cta-breathe {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+
 .fade-in {
   animation: fade-in 0.45s ease;
 }

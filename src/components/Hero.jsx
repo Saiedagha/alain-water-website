@@ -39,15 +39,10 @@ export default function Hero() {
           >
             <div className="flex min-h-[340px] items-center justify-center px-6 py-10 text-center text-white">
               <div className="max-w-[320px]">
-                <span className="mb-3 inline-flex rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.22em] backdrop-blur-sm">
-                  {lang === 'ar' ? 'العين' : 'Al Ain'}
-                </span>
-                <h2 className="text-[1.9rem] font-black uppercase leading-tight tracking-tight">
-                  {getSlideTitle(slide)}
-                </h2>
                 <Link
                   to="/products"
-                  className="mt-6 inline-flex items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-black text-slate-900 shadow-lg transition hover:scale-[1.02]"
+                  className="inline-flex items-center justify-center rounded-full bg-white px-7 py-4 text-[16px] font-black text-slate-900 shadow-xl transition duration-300 ease-out hover:-translate-y-0.5 hover:shadow-2xl"
+                  style={{ animation: 'hero-cta-breathe 2.2s ease-in-out infinite' }}
                 >
                   {t.hero.cta}
                 </Link>
@@ -72,15 +67,10 @@ export default function Hero() {
           >
             <div className="flex h-[280px] items-center justify-center px-6 text-center text-white lg:h-[320px] xl:h-[360px]">
               <div className="max-w-[680px]">
-                <span className="mb-4 inline-flex rounded-full bg-white/15 px-4 py-1.5 text-[12px] font-bold uppercase tracking-[0.24em] backdrop-blur-sm">
-                  {lang === 'ar' ? 'العين' : 'Al Ain'}
-                </span>
-                <h2 className="text-[2.3rem] font-black uppercase leading-tight tracking-tight md:text-[2.7rem] lg:text-[3.1rem]">
-                  {getSlideTitle(slide)}
-                </h2>
                 <Link
                   to="/products"
-                  className="mt-7 inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-black text-slate-900 shadow-lg transition hover:scale-[1.02]"
+                  className="inline-flex items-center justify-center rounded-full bg-white px-10 py-4.5 text-[18px] font-black text-slate-900 shadow-2xl transition duration-300 ease-out hover:-translate-y-0.5 hover:shadow-2xl"
+                  style={{ animation: 'hero-cta-breathe 2.2s ease-in-out infinite' }}
                 >
                   {t.hero.cta}
                 </Link>
