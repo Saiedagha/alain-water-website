@@ -27,7 +27,7 @@ export default function ContactPage() {
 
   const email = settings.email || SITE_CONTACT.email
   const whatsappRaw = settings.whatsapp || SITE_CONTACT.whatsapp
-  const whatsappDigits = String(whatsappRaw).replace(/\D/g, '')
+  const whatsappDigits = String(whatsappRaw).replace(/\D/g, '') || '971547866055'
   const whatsappDisplay = `+${whatsappDigits}`
   const location =
     (isAr ? settings.address_ar || settings.address : settings.address) ||

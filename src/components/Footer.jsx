@@ -103,8 +103,8 @@ function DesktopFooter() {
         <img src={LOGO_URL} alt="Al Ain Water" className="mb-4 h-14 w-auto md:h-16" />
         <p className="max-w-[225px] text-[13px] leading-5 text-white">{c.address[lang] || c.address.en}</p>
         <div className="mt-6 space-y-1.5 text-[13px] leading-5 text-white">
-          <a href={`tel:${c.phone}`} className="block font-semibold hover:opacity-90">
-            {c.phoneDisplay}
+          <a href={`https://wa.me/${SITE_CONTACT.whatsapp}`} target="_blank" rel="noreferrer" className="block font-semibold hover:opacity-90">
+            +971547866055
           </a>
           <p className="font-semibold">{c.hours[lang] || c.hours.en}</p>
         </div>
@@ -185,8 +185,8 @@ function MobileFooter() {
       <p className="mt-6 max-w-[300px] text-[15px] leading-[1.4] text-white">{c.address[lang] || c.address.en}</p>
 
       <div className="mt-8 space-y-1.5 text-[15px] font-semibold leading-5 text-white">
-        <a href={`tel:${c.phone}`} className="block hover:opacity-90">
-          {c.phoneDisplay}
+        <a href={`https://wa.me/${SITE_CONTACT.whatsapp}`} target="_blank" rel="noreferrer" className="block hover:opacity-90">
+          +971547866055
         </a>
         <p>{c.hours[lang] || c.hours.en}</p>
       </div>
