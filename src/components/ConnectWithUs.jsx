@@ -81,7 +81,7 @@ export default function ConnectWithUs() {
               <span className="mt-0.5 text-slate-900/90" aria-hidden>
                 <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <rect x="3" y="5" width="18" height="14" rx="2" />
-                  <path d="M3 7l9 7 9-7" />
+                  <path d="+971547866055" />
                 </svg>
               </span>
               <div>
