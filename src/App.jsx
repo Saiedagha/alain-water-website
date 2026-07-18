@@ -68,7 +68,7 @@ export default function App() {
       <ScrollToTop />
       <StorefrontPresenceTracker enabled={trackOnlineVisitors} />
       {showStorefrontChrome && <Navbar />}
-      <main className="flex-1">
+      <main className="flex-1 overflow-x-hidden">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutPage />} />
