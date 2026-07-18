@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { useLanguage } from '../context/LanguageContext'
 import { HERO_SLIDES } from '../data/alainContent'
 
 export default function Hero() {
+  const { lang, t } = useLanguage()
   const [index, setIndex] = useState(0)
   const [paused, setPaused] = useState(false)
   const mobileRailRef = useRef(null)
@@ -33,6 +36,11 @@ export default function Hero() {
     if (nextIndex !== index) setIndex(nextIndex)
   }
 
+  const getSlideTitle = (slide) => {
+    if (typeof slide.alt === 'string') return slide.alt
+    return slide.alt?.[lang] || slide.alt?.en || ''
+  }
+
   return (
     <section
       className="relative w-full overflow-hidden"
@@ -57,14 +65,22 @@ export default function Hero() {
               className="hero-slide relative shrink-0 w-full"
               style={{ background: slide.bg || '#0b5f9e' }}
             >
-              <img
-                src={slide.mobileImage || slide.image}
-                alt={slide.alt}
-                draggable={false}
-                decoding="async"
-                className="block h-auto w-full select-none object-cover object-center pointer-events-none"
-                sizes="100vw"
-              />
+              <div className="flex min-h-[340px] items-center justify-center px-6 py-10 text-center text-white">
+                <div className="max-w-[320px]">
+                  <span className="mb-3 inline-flex rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.22em] backdrop-blur-sm">
+                    {lang === 'ar' ? 'العين' : 'Al Ain'}
+                  </span>
+                  <h2 className="text-[1.9rem] font-black uppercase leading-tight tracking-tight">
+                    {getSlideTitle(slide)}
+                  </h2>
+                  <Link
+                    to="/products"
+                    className="mt-6 inline-flex items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-black text-slate-900 shadow-lg transition hover:scale-[1.02]"
+                  >
+                    {t.hero.cta}
+                  </Link>
+                </div>
+              </div>
             </div>
           ))}
         </div>
@@ -80,39 +96,27 @@ export default function Hero() {
               className="hero-slide relative shrink-0 w-full"
               style={{ background: slide.bg || '#0b5f9e' }}
             >
-              <div className="relative hidden w-full overflow-hidden md:block h-[280px] lg:h-[320px] xl:h-[360px]">
-                <img
-                  src={slide.image}
-                  alt={slide.alt}
-                  draggable={false}
-                  decoding="async"
-                  className="absolute inset-0 h-full w-full object-cover object-center select-none pointer-events-none"
-                  sizes="100vw"
-                />
+              <div className="flex h-[280px] items-center justify-center px-6 text-center text-white lg:h-[320px] xl:h-[360px]">
+                <div className="max-w-[680px]">
+                  <span className="mb-4 inline-flex rounded-full bg-white/15 px-4 py-1.5 text-[12px] font-bold uppercase tracking-[0.24em] backdrop-blur-sm">
+                    {lang === 'ar' ? 'العين' : 'Al Ain'}
+                  </span>
+                  <h2 className="text-[2.3rem] font-black uppercase leading-tight tracking-tight md:text-[2.7rem] lg:text-[3.1rem]">
+                    {getSlideTitle(slide)}
+                  </h2>
+                  <Link
+                    to="/products"
+                    className="mt-7 inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-black text-slate-900 shadow-lg transition hover:scale-[1.02]"
+                  >
+                    {t.hero.cta}
+                  </Link>
+                </div>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
-        {HERO_SLIDES.map((slide, i) => (
-          <button
-            key={slide.id}
-            type="button"
-            aria-label={`Slide ${i + 1}`}
-            aria-current={i === index ? 'true' : undefined}
-            onClick={() => {
-              setPaused(true)
-              goTo(i)
-              window.setTimeout(() => setPaused(false), 4500)
-            }}
-            className={`transition-all duration-300 rounded-full ${
-              i === index ? 'w-6 h-2 bg-white' : 'w-2 h-2 bg-white/55 hover:bg-white/80'
-            }`}
-          />
-        ))}
-      </div>
     </section>
   )
 }

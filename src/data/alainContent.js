@@ -9,7 +9,10 @@ export const HERO_SLIDES = [
     image:
       'https://alainwater.com/cdn/shop/files/sparkling_can_banner_1_4000x938_crop_center.jpg?v=1760346604',
     mobileImage: 'https://alainwater.com/cdn/shop/files/SecondaryInformation_1-11.jpg?v=1757581874',
-    alt: 'Sparkling Water — Now Available in Cans',
+    alt: {
+      en: 'Sparkling Water Now Available in Cans',
+      ar: 'مياه غازية متوفرة الآن في العلب',
+    },
     bg: '#1a7a3c',
   },
   {
@@ -17,7 +20,10 @@ export const HERO_SLIDES = [
     image:
       'https://alainwater.com/cdn/shop/files/sparkling_can_banner_2_4001x939_crop_center.jpg?v=1760346604',
     mobileImage: 'https://alainwater.com/cdn/shop/files/SecondaryInformation_1-13.jpg?v=1757581874',
-    alt: 'Sparkling Water — 0 Calories, 0 Sugar',
+    alt: {
+      en: 'Sparkling Water — 0 Calories, 0 Sugar',
+      ar: 'مياه غازية • صفر سعرات حرارية • صفر سكر',
+    },
     bg: '#1a7a3c',
   },
   {
@@ -25,7 +31,10 @@ export const HERO_SLIDES = [
     image:
       'https://alainwater.com/cdn/shop/files/sparkling_can_banner_3_4001x938_crop_center.jpg?v=1760346604',
     mobileImage: 'https://alainwater.com/cdn/shop/files/SecondaryInformation_1-12.jpg?v=1757581874',
-    alt: 'Made with Zero Calories | Sugar',
+    alt: {
+      en: 'Made with Zero Calories | Sugar',
+      ar: 'مصنوعة بصفر سعرات حرارية | صفر سكر',
+    },
     bg: '#1a7a3c',
   },
   {
@@ -33,7 +42,10 @@ export const HERO_SLIDES = [
     image:
       'https://alainwater.com/cdn/shop/files/Web_Banner_Main_Screen_Mobile_View_1920x450-08.jpg?v=1738902149',
     mobileImage: 'https://alainwater.com/cdn/shop/files/SecondaryInformation_1-11.jpg?v=1757581874',
-    alt: 'Choose Quality, Choose Al Ain',
+    alt: {
+      en: 'Choose Quality, Choose Al Ain',
+      ar: 'اختر الجودة، اختر العين',
+    },
     bg: '#0b5f9e',
   },
 ]

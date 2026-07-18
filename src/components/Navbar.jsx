@@ -422,7 +422,6 @@ export default function Navbar() {
                 <IconLogin />
                 <span>{ui.login}</span>
               </button>
-              <span className="text-slate-300">|</span>
               <button
                 type="button"
                 onClick={() => {
