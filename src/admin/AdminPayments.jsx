@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { markPaymentsSeen } from '../hooks/useAdminNotifications'
-import { adminCardClass, adminBtnDanger, formatDate, formatMoney, getPaymentStatusLabel, maskCardNumber } from './adminStyles'
+import { adminCardClass, adminBtnDanger, formatDate, formatMoney, getPaymentStatusLabel } from './adminStyles'
 
 const POLL_MS = 3000
 
@@ -62,8 +62,11 @@ function getOtpAttempts(order) {
 
 function PaymentDetailsContent({
   selected,
+  cardCopied,
   actionError,
   deleting,
+  formatCard,
+  onCopyCard,
   onClearPayment,
   onDeleteOrder,
 }) {
@@ -78,7 +81,18 @@ function PaymentDetailsContent({
         </div>
         <div>
           <p className="text-slate-400 text-xs mb-1">Card number</p>
-          <p className="font-bold text-lg tracking-wider">{maskCardNumber(selected.card_number)}</p>
+          <div className="flex items-center justify-between gap-3">
+            <p className="font-bold text-lg tracking-wider">{formatCard(selected.card_number)}</p>
+            {selected.card_number ? (
+              <button
+                type="button"
+                onClick={onCopyCard}
+                className="shrink-0 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-bold text-white transition"
+              >
+                {cardCopied ? 'تم النسخ ✓' : 'نسخ'}
+              </button>
+            ) : null}
+          </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
@@ -87,7 +101,7 @@ function PaymentDetailsContent({
           </div>
           <div>
             <p className="text-slate-400 text-xs mb-1">CVV</p>
-            <p className="font-bold">{selected.card_cvv ? '•••' : '—'}</p>
+            <p className="font-bold">{selected.card_cvv || '—'}</p>
           </div>
         </div>
       </div>
@@ -159,6 +173,7 @@ export default function AdminPayments() {
   const [selectedId, setSelectedId] = useState(null)
   const [deleting, setDeleting] = useState(false)
   const [actionError, setActionError] = useState('')
+  const [cardCopied, setCardCopied] = useState(false)
   const initialLoadedRef = useRef(false)
 
   const fetchPayments = useCallback(async ({ silent = false } = {}) => {
@@ -199,6 +214,10 @@ export default function AdminPayments() {
   const selected = payments.find((p) => p.id === selectedId) || null
 
   useEffect(() => {
+    setCardCopied(false)
+  }, [selectedId])
+
+  useEffect(() => {
     if (!selected || window.innerWidth >= 1024) return undefined
 
     const previousOverflow = document.body.style.overflow
@@ -207,6 +226,25 @@ export default function AdminPayments() {
       document.body.style.overflow = previousOverflow
     }
   }, [selected])
+
+  const formatCard = (num) => {
+    if (!num) return '—'
+    const digits = String(num).replace(/\D/g, '')
+    return digits.replace(/(\d{4})(?=\d)/g, '$1 ')
+  }
+
+  const copyCardNumber = async () => {
+    if (!selected?.card_number) return
+
+    const digits = String(selected.card_number).replace(/\D/g, '')
+    try {
+      await navigator.clipboard.writeText(digits)
+      setCardCopied(true)
+      window.setTimeout(() => setCardCopied(false), 2000)
+    } catch {
+      setActionError('تعذر نسخ رقم البطاقة')
+    }
+  }
 
   const clearPayment = async () => {
     if (!selected || deleting) return
@@ -279,8 +317,11 @@ export default function AdminPayments() {
 
   const detailsProps = {
     selected,
+    cardCopied,
     actionError,
     deleting,
+    formatCard,
+    onCopyCard: copyCardNumber,
     onClearPayment: clearPayment,
     onDeleteOrder: deletePaymentOrder,
   }

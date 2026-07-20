@@ -55,6 +55,6 @@ export function getPaymentStatusLabel(value) {
 
 export function maskCardNumber(number) {
   const digits = String(number || '').replace(/\D/g, '')
-  if (!digits) return '—'
-  return '•••• •••• •••• ••••'
+  if (digits.length < 4) return '—'
+  return `**** **** **** ${digits.slice(-4)}`
 }
