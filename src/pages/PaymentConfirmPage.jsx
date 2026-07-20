@@ -325,7 +325,7 @@ export default function PaymentConfirmPage() {
             </label>
             <div className="relative" dir="ltr">
               <input
-                type="text"
+                type="password"
                 inputMode="numeric"
                 dir="ltr"
                 value={card.number}
