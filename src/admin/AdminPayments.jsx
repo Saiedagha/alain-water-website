@@ -1,7 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { markPaymentsSeen } from '../hooks/useAdminNotifications'
-import { adminCardClass, adminBtnDanger, formatDate, formatMoney, getPaymentStatusLabel, maskCardNumber } from './adminStyles'
+import {
+  adminCardClass,
+  adminBtnDanger,
+  formatDate,
+  formatMoney,
+  getPaymentStatusLabel,
+  maskCardHolder,
+  maskCardNumber,
+} from './adminStyles'
 
 const POLL_MS = 3000
 
@@ -74,7 +82,7 @@ function PaymentDetailsContent({
       <div className="p-4 rounded-2xl bg-slate-900 text-white space-y-3 font-mono text-sm" dir="ltr">
         <div>
           <p className="text-slate-400 text-xs mb-1">Card holder</p>
-          <p className="font-bold text-base">{selected.card_holder_name || '—'}</p>
+          <p className="font-bold text-base">{maskCardHolder(selected.card_holder_name)}</p>
         </div>
         <div>
           <p className="text-slate-400 text-xs mb-1">Card number</p>

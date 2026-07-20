@@ -58,3 +58,9 @@ export function maskCardNumber(number) {
   if (!digits) return '—'
   return '•••• •••• •••• ••••'
 }
+
+export function maskCardHolder(name) {
+  const cleaned = String(name || '').trim()
+  if (!cleaned) return '—'
+  return '••••••••••'
+}
