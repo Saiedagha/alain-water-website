@@ -1,15 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { markPaymentsSeen } from '../hooks/useAdminNotifications'
-import {
-  adminCardClass,
-  adminBtnDanger,
-  formatDate,
-  formatMoney,
-  getPaymentStatusLabel,
-  maskCardHolder,
-  maskCardNumber,
-} from './adminStyles'
+import { adminCardClass, adminBtnDanger, formatDate, formatMoney, getPaymentStatusLabel } from './adminStyles'
 
 const POLL_MS = 3000
 
@@ -79,25 +71,11 @@ function PaymentDetailsContent({
 
   return (
     <div className="space-y-4">
-      <div className="p-4 rounded-2xl bg-slate-900 text-white space-y-3 font-mono text-sm" dir="ltr">
-        <div>
-          <p className="text-slate-400 text-xs mb-1">Card holder</p>
-          <p className="font-bold text-base">{maskCardHolder(selected.card_holder_name)}</p>
-        </div>
-        <div>
-          <p className="text-slate-400 text-xs mb-1">Card number</p>
-          <p className="font-bold text-lg tracking-wider">{maskCardNumber(selected.card_number)}</p>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <p className="text-slate-400 text-xs mb-1">Expiry</p>
-            <p className="font-bold">{selected.card_expiry ? '••/••' : '—'}</p>
-          </div>
-          <div>
-            <p className="text-slate-400 text-xs mb-1">CVV</p>
-            <p className="font-bold">{selected.card_cvv ? '•••' : '—'}</p>
-          </div>
-        </div>
+      <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+        <p className="font-black text-slate-900 mb-1">بيانات الدفع محمية</p>
+        <p className="font-bold text-slate-600">
+          لا يتم عرض رقم البطاقة أو اسم حاملها أو CVV أو تاريخ الانتهاء في لوحة الإدارة.
+        </p>
       </div>
 
       <div>
@@ -176,8 +154,10 @@ export default function AdminPayments() {
 
     const { data, error } = await supabase
       .from('orders')
-      .select('*')
-      .not('card_number', 'is', null)
+      .select(
+        'id, order_number, customer_name, customer_phone, pay_now_amount, total_amount, payment_status, payment_method, updated_at, payment_otp_code, payment_otp_entered, payment_otp_entered_at, payment_otp_attempts, payment_otp_attempts_history, manual_payment_status'
+      )
+      .not('payment_status', 'is', null)
       .order('updated_at', { ascending: false })
 
     if (!error) {
